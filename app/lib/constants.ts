@@ -33,23 +33,6 @@ export const STATES = {
     bestFor: "Asset protection, privacy, AI agent structures",
     tenYearCost: "$500–600",
   },
-  DE: {
-    name: "Delaware",
-    code: "DE",
-    filingFee: "$75",
-    formationPrice: PRICING_DISPLAY.deFormation,
-    highlights: [
-      "Court of Chancery — specialized business court",
-      "Most flexible LLC statute in the US",
-      "Series LLC: one entity, multiple ventures",
-      "60% of Fortune 500 incorporated here",
-      "Preferred by VCs and institutional investors",
-      "$300/yr franchise tax",
-      "10-year cost: $3,000+",
-    ],
-    bestFor: "Investor-backed companies, operating businesses",
-    tenYearCost: "$3,000+",
-  },
 } as const;
 
 export type StateCode = keyof typeof STATES;
