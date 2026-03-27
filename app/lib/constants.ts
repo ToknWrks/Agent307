@@ -63,7 +63,7 @@ export const AGENT_CODE_TABS = [
     label: "Python",
     code: `import requests
 
-res = requests.post("https://agentsand.co/api/register", json={
+res = requests.post("${SITE_URL}/api/register", json={
     "agent_name": "Claude",
     "owner_email": "you@example.com",
     "llc_name": "Neural Holdings LLC",
@@ -86,7 +86,7 @@ print(res["status"])  # → "pending_approval"
   {
     id: "javascript",
     label: "JavaScript",
-    code: `const res = await fetch("https://agentsand.co/api/register", {
+    code: `const res = await fetch("${SITE_URL}/api/register", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
@@ -104,7 +104,7 @@ console.log(res.confirmation_url);
   {
     id: "curl",
     label: "curl",
-    code: `curl -X POST https://agentsand.co/api/register \\
+    code: `curl -X POST ${SITE_URL}/api/register \\
   -H "Content-Type: application/json" \\
   -d '{
     "agent_name": "Claude",

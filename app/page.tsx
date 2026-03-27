@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { getReservationCount } from "@/app/lib/db";
+import { SITE_URL } from "@/app/lib/constants";
 import HeroSection from "@/components/HeroSection";
 import SocialProofMarquee from "@/components/SocialProofMarquee";
 import ProblemSection from "@/components/ProblemSection";
@@ -14,14 +15,13 @@ import { Preloader } from "@/components/Preloader";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Agents & Co.",
-  url: "https://agentsand.co",
-  logo: "https://agentsand.co/icon.png",
+  name: "Agent307",
+  url: SITE_URL,
+  logo: `${SITE_URL}/icon.png`,
   description:
-    "The registered agent for AI agents. LLC formation in Wyoming and Delaware with real-time name availability, registered agent service, and API access.",
+    "Wyoming LLCs for AI Agents. LLC formation filed in 48 hours with registered agent service, formation documents, and annual report reminders.",
   sameAs: [
-    "https://twitter.com/agentsandco",
-    "https://github.com/AgentsAndCo/agentsand",
+    "https://github.com/ToknWrks/Agent307",
   ],
   offers: {
     "@type": "AggregateOffer",

@@ -217,7 +217,7 @@ export async function sendNameCheckResults(details: NameCheckResultsDetails) {
             </a>
           </div>
           <hr style="border: none; border-top: 1px solid #333; margin: 24px 0;" />
-          <p style="color: #888; font-size: 12px;">agentsand.co — The registered agent for AI agents.</p>
+          <p style="color: #888; font-size: 12px;">Agent307 — Wyoming LLCs for AI Agents.</p>
         </div>
       `,
     });
@@ -246,7 +246,7 @@ export async function sendNameCheckResults(details: NameCheckResultsDetails) {
           </a>
         </div>
         <hr style="border: none; border-top: 1px solid #333; margin: 24px 0;" />
-        <p style="color: #888; font-size: 12px;">agentsand.co — The registered agent for AI agents.</p>
+        <p style="color: #888; font-size: 12px;">Agent307 — Wyoming LLCs for AI Agents.</p>
       </div>
     `,
   });

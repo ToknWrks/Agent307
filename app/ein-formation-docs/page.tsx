@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/app/lib/constants";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
     title: "Wyoming LLC EIN & Formation Documents | Agent307",
     description:
       "Articles of Organization, Operating Agreement, and EIN assistance — included with every Wyoming LLC formation. Delivered in 48 hours.",
-    url: "https://agent307.com/ein-formation-docs",
+    url: `${SITE_URL}/ein-formation-docs`,
   },
 };
 
@@ -26,7 +27,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   name: "Wyoming LLC EIN & Formation Documents",
-  provider: { "@type": "Organization", name: "Agent307", url: "https://agent307.com" },
+  provider: { "@type": "Organization", name: "Agent307", url: SITE_URL },
   description: "Articles of Organization, Operating Agreement, and EIN assistance included with Wyoming LLC formation.",
   offers: {
     "@type": "Offer",

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: "Form a Wyoming LLC Online — Filed in 48 Hours | Agent307",
     description:
       "Wyoming LLC formation for AI agent operators. $299 all-in. Anonymous ownership. No state income tax. Filed with the Wyoming Secretary of State in 48 hours.",
-    url: "https://agent307.com/form-wyoming-llc",
+    url: `${SITE_URL}/form-wyoming-llc`,
   },
 };
 
@@ -27,7 +27,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   name: "Wyoming LLC Formation",
-  provider: { "@type": "Organization", name: "Agent307", url: "https://agent307.com" },
+  provider: { "@type": "Organization", name: "Agent307", url: SITE_URL },
   description: "Wyoming LLC formation for AI agent operators. Filed in 48 hours.",
   offers: {
     "@type": "Offer",

@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/app/lib/constants";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     title: "Wyoming Registered Agent Service — $100/yr | Agent307",
     description:
       "Wyoming registered agent for AI-operated LLCs. $100/year. We receive your legal mail, forward it to you, and remind you before your annual report is due.",
-    url: "https://agent307.com/registered-agent",
+    url: `${SITE_URL}/registered-agent`,
   },
 };
 
@@ -25,7 +26,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   name: "Wyoming Registered Agent Service",
-  provider: { "@type": "Organization", name: "Agent307", url: "https://agent307.com" },
+  provider: { "@type": "Organization", name: "Agent307", url: SITE_URL },
   description: "Wyoming registered agent service for LLCs. $100/year.",
   offers: {
     "@type": "Offer",
