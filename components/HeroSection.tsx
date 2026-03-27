@@ -13,7 +13,7 @@ import { useEffect, useRef, useState, FC, ReactNode } from "react";
 // ── Manifesto text ──────────────────────────────────────────────────
 const MANIFESTO = [
   "Your AI agent makes purchases, signs contracts, and executes code. If something goes wrong, the liability lands on you — personally.",
-  "An LLC creates a legal wall between your agent's actions and your personal assets. Your agent gets a business identity. You get a shield. That's the & in Agents&.",
+  "A Wyoming LLC creates a legal wall between your agent's actions and your personal assets. Your agent gets a business identity. You get a shield. Filed in 48 hours.",
 ];
 
 function parseWords(lines: string[]) {
@@ -94,7 +94,7 @@ function HeroContent() {
   const searchParams = useSearchParams();
   const [llcName, setLlcName] = useState("");
   const [email, setEmail] = useState("");
-  const [state, setState] = useState<"WY" | "DE">("WY");
+  const state = "WY" as const;
   const [status, setStatus] = useState<AvailabilityStatus>("idle");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [product, setProduct] = useState<"reservation" | "formation">("reservation");
@@ -197,7 +197,7 @@ function HeroContent() {
     nameInputRef.current?.focus();
   };
 
-  const stateName = state === "WY" ? "Wyoming" : "Delaware";
+  const stateName = "Wyoming";
 
   return (
     <section className="relative w-full py-8 md:py-12">
@@ -215,7 +215,7 @@ function HeroContent() {
                     Register via <span className="text-[#0e7490] dark:text-[#A8F1F7]">API.</span>
                   </h1>
                   <p className="mx-auto max-w-[600px] text-lg leading-relaxed text-neutral-500 md:text-xl dark:text-neutral-400">
-                    One call. Real LLC. Wyoming or Delaware. Starting at $99.
+                    One call. Real Wyoming LLC. Filed in 48 hours. Starting at $99.
                   </p>
                 </>
               ) : (
@@ -231,7 +231,7 @@ function HeroContent() {
                   <h1
                     className="text-5xl font-bold tracking-tighter text-neutral-900 sm:text-6xl md:text-7xl lg:text-8xl dark:text-neutral-50"
                     style={{ textWrap: "balance" }}>
-                    The registered agent{" "}
+                    Your Wyoming LLC{" "}
                     <span className="text-[#0e7490] dark:text-[#A8F1F7]">for AI agents.</span>
                   </h1>
                   <p className="mx-auto max-w-[600px] text-lg leading-relaxed text-neutral-500 md:text-xl dark:text-neutral-400">
@@ -283,21 +283,8 @@ function HeroContent() {
                               : "border-black/10 dark:border-white/10"
                           )}
                         />
-                        <div className="flex shrink-0 overflow-hidden rounded-lg border border-black/10 dark:border-white/10">
-                          {(["WY", "DE"] as const).map((s) => (
-                            <button
-                              key={s}
-                              type="button"
-                              onClick={() => setState(s)}
-                              className={cn(
-                                "px-3 py-3.5 text-sm font-medium transition-all",
-                                state === s
-                                  ? "bg-[#A8F1F7]/15 text-[#0e7490] dark:text-[#A8F1F7]"
-                                  : "text-neutral-400 hover:bg-black/5 dark:hover:bg-white/5"
-                              )}>
-                              {s}
-                            </button>
-                          ))}
+                        <div className="flex shrink-0 items-center rounded-lg border border-[#A8F1F7]/30 bg-[#A8F1F7]/10 px-3 text-sm font-semibold text-[#0e7490] dark:text-[#A8F1F7]">
+                          WY
                         </div>
                       </div>
                       {showPrompt && (
@@ -325,7 +312,7 @@ function HeroContent() {
                       ) : (
                         <span className="flex items-center justify-center gap-2">
                           {product === "formation"
-                            ? `Form ${stateName} LLC — $${state === "WY" ? "299" : "399"}`
+                            ? "Form Wyoming LLC — $299"
                             : COPY.ctaCheck}
                           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                         </span>
@@ -340,12 +327,12 @@ function HeroContent() {
                             type="button"
                             onClick={() => setProduct("formation")}
                             className="text-[#0e7490] underline underline-offset-2 transition-colors hover:text-[#A8F1F7] dark:text-[#A8F1F7] dark:hover:text-[#A8F1F7]/80">
-                            full formation (${state === "WY" ? "299" : "399"})
+                            full Wyoming formation ($299)
                           </button>
                         </>
                       ) : (
                         <>
-                          Includes registered agent free for year one.{" "}
+                          Wyoming LLC filed in 48 hours.{" "}
                           <button
                             type="button"
                             onClick={() => setProduct("reservation")}

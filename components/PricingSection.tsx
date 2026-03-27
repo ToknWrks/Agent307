@@ -8,52 +8,53 @@ const pricingPlans = [
   {
     name: "$99 Name Reservation",
     price: 99,
+    period: "",
     tagline: "Lock it down",
-    description: "Your agent's LLC name, reserved for 120 days. Credited toward formation.",
+    description: "Your agent's Wyoming LLC name, reserved for 120 days. Credited toward formation.",
     features: [
-      "Real name availability check",
-      "Registered agent service",
-      "Choice of Wyoming or Delaware",
-      "$99 credited toward formation",
+      "Real-time Wyoming name availability check",
+      "120-day name hold",
+      "$99 credited toward full formation",
+      "Confirmation email with next steps",
     ],
     highlighted: false,
     cta: "Reserve Name",
     product: "reservation" as const,
-    state: undefined as "WY" | "DE" | undefined,
   },
   {
     name: "$299 Wyoming LLC",
     price: 299,
-    tagline: "The popular one",
-    description: "Full LLC. Filed in 48 hours. Anonymous.",
+    period: "",
+    tagline: "Most popular",
+    description: "Full Wyoming LLC. Filed in 48 hours. Anonymous ownership.",
     features: [
-      "Everything in Reservation",
-      "LLC formation filing",
-      "Registered agent (free first year)",
-      "Anonymous ownership",
-      "Operating agreement template",
+      "Articles of Organization filed",
+      "Operating Agreement included",
+      "Anonymous ownership — no public records",
+      "No state income tax, no franchise tax",
+      "Registered agent service (first year free)",
+      "EIN assistance",
     ],
     highlighted: true,
     cta: "Form Wyoming LLC",
     product: "formation" as const,
-    state: "WY" as const,
   },
   {
-    name: "$399 Delaware LLC",
-    price: 399,
-    tagline: "The fancy one",
-    description: "Court of Chancery. Series LLC. VC-ready.",
+    name: "$100 Annual Service",
+    price: 100,
+    period: "/yr",
+    tagline: "Stay compliant",
+    description: "Registered agent service + annual report reminders. We keep your LLC in good standing.",
     features: [
-      "Everything in Reservation",
-      "LLC formation filing",
-      "Registered agent (free first year)",
-      "Series LLC option",
-      "Investor-preferred structure",
+      "Wyoming registered agent address",
+      "Legal document receipt & forwarding",
+      "60-day annual report reminder",
+      "State notice forwarding",
+      "Renewal billing handled automatically",
     ],
     highlighted: false,
-    cta: "Form Delaware LLC",
-    product: "formation" as const,
-    state: "DE" as const,
+    cta: "Subscribe",
+    product: "annual_service" as const,
   },
 ];
 
@@ -64,10 +65,10 @@ export default function PricingSection() {
         {/* Section Header */}
         <div className="mb-12 space-y-4 text-center md:mb-16">
           <h2 className="text-4xl font-bold tracking-tighter text-neutral-900 md:text-5xl dark:text-neutral-50">
-            $99 to start. Your agent is worth it.
+            Wyoming LLC for your agent. Filed in 48 hours.
           </h2>
           <p className="mx-auto max-w-[500px] text-lg text-neutral-400">
-            We file the paperwork. You maintain plausible deniability.
+            We handle the paperwork. You get the protection.
           </p>
         </div>
 
@@ -108,6 +109,9 @@ export default function PricingSection() {
                     <span className="text-6xl font-bold tracking-tighter text-black/80 dark:text-white/80">
                       ${plan.price}
                     </span>
+                    {plan.period && (
+                      <span className="mb-2 text-lg text-black/40 dark:text-white/40">{plan.period}</span>
+                    )}
                   </div>
                 </div>
 
@@ -119,7 +123,7 @@ export default function PricingSection() {
                   onClick={() => {
                     window.dispatchEvent(
                       new CustomEvent("set-product", {
-                        detail: { product: plan.product, state: plan.state },
+                        detail: { product: plan.product, state: "WY" },
                       })
                     );
                     document.getElementById("reserve")?.scrollIntoView({ behavior: "smooth" });
@@ -156,7 +160,7 @@ export default function PricingSection() {
         {/* Bottom Info */}
         <div className="mx-auto mt-12 max-w-2xl text-center">
           <p className="text-base text-black/60 dark:text-white/60">
-            All plans include registered agent service. All prices credited toward Business-in-a-Box.
+            All formation orders include registered agent service free for year one. Wyoming only.
           </p>
         </div>
       </div>

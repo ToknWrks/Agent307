@@ -4,7 +4,7 @@ import { SITE_URL } from "@/app/lib/constants";
 import { generateLLCName } from "@/app/lib/llc-names";
 import { getStripe } from "@/app/lib/stripe";
 
-type ProductType = "reservation" | "formation";
+type ProductType = "reservation" | "formation" | "annual_service";
 
 function getPriceId(product: ProductType, state: "WY" | "DE"): string {
   if (product === "formation") {
@@ -13,6 +13,11 @@ function getPriceId(product: ProductType, state: "WY" | "DE"): string {
         ? process.env.STRIPE_PRICE_WY_FORMATION
         : process.env.STRIPE_PRICE_DE_FORMATION;
     if (!id) throw new Error(`STRIPE_PRICE_${state}_FORMATION is not set`);
+    return id;
+  }
+  if (product === "annual_service") {
+    const id = process.env.STRIPE_PRICE_ANNUAL_SERVICE;
+    if (!id) throw new Error("STRIPE_PRICE_ANNUAL_SERVICE is not set");
     return id;
   }
   const id = process.env.STRIPE_PRICE_RESERVATION;
@@ -31,11 +36,15 @@ export async function POST(request: NextRequest) {
 
     const validState = state === "DE" ? "DE" : "WY";
     const llcName = rawName?.trim() || generateLLCName();
-    const product: ProductType = rawProduct === "formation" ? "formation" : "reservation";
+    const product: ProductType =
+      rawProduct === "formation" ? "formation" :
+      rawProduct === "annual_service" ? "annual_service" :
+      "reservation";
     const priceId = getPriceId(product, validState);
+    const isSubscription = product === "annual_service";
 
     const session = await getStripe().checkout.sessions.create({
-      mode: "payment",
+      mode: isSubscription ? "subscription" : "payment",
       customer_email: email,
       line_items: [{ price: priceId, quantity: 1 }],
       metadata: {
@@ -46,6 +55,9 @@ export async function POST(request: NextRequest) {
         ...(ref && typeof ref === "string" ? { ref } : {}),
         ...(request_id && typeof request_id === "string" ? { request_id } : {}),
       },
+      ...(isSubscription && {
+        subscription_data: { metadata: { llcName, state: validState, email } },
+      }),
       success_url: `${SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: SITE_URL,
     });

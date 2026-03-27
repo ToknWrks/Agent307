@@ -1,13 +1,13 @@
 "use client";
 
-import { Building2, Phone, Landmark, Mail } from "lucide-react";
+import { Building2, Phone, Sparkles, Mail } from "lucide-react";
 import { motion } from "motion/react";
 import { FEATURES } from "@/app/lib/constants";
 
 const iconMap = {
   building: Building2,
   phone: Phone,
-  landmark: Landmark,
+  landmark: Sparkles,
   mail: Mail,
 } as const;
 

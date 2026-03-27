@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { FileText, Github, Landmark, Mail, Phone, Shield } from "lucide-react";
+import { FileText, Github, Mail, MapPin, Shield, Sparkles } from "lucide-react";
 
 export type NavigationItem = {
   name: string;
@@ -24,18 +24,17 @@ export const NAVIGATION_ITEMS: NavigationMenu[] = [
     name: "Services",
     categories: [
       {
-        name: "Formation",
+        name: "Wyoming LLC",
         items: [
-          { name: "Wyoming LLC", href: "/#states", icon: Shield },
-          { name: "Delaware LLC", href: "/#states", icon: Landmark },
-          { name: "Registered Agent", href: "/#trust", icon: Shield },
+          { name: "Form Your LLC — $299", href: "/form-wyoming-llc", icon: Shield },
+          { name: "Registered Agent — $100/yr", href: "/registered-agent", icon: MapPin },
+          { name: "EIN & Formation Docs", href: "/ein-formation-docs", icon: Mail },
         ],
       },
       {
-        name: "Business-in-a-Box",
+        name: "Business Plan",
         items: [
-          { name: "Phone Number", href: "/#features", icon: Phone },
-          { name: "Email & EIN", href: "/#features", icon: Mail },
+          { name: "AI Business Plan", href: "/business-plan", icon: Sparkles },
         ],
       },
     ],
@@ -57,7 +56,7 @@ export const NAVIGATION_ITEMS: NavigationMenu[] = [
       {
         name: "Open Source",
         items: [
-          { name: "GitHub", href: "https://github.com/AgentsAndCo/agentsand", icon: Github },
+          { name: "GitHub", href: "https://github.com/ToknWrks/Agent307", icon: Github },
         ],
       },
     ],

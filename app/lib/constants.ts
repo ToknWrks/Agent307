@@ -1,19 +1,17 @@
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://agentsand.co";
-export const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || "noah@24calldesk.com";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://agent307.com";
+export const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || "service@agent307.com";
 
 export const PRICING = {
   reservation: 9900, // $99 in cents
   wyFormation: 29900,
-  deFormation: 39900,
-  registeredAgent: 9900, // per year
+  annualService: 10000, // $100/yr registered agent service
   businessInABox: 49900,
 } as const;
 
 export const PRICING_DISPLAY = {
   reservation: "$99",
   wyFormation: "$299",
-  deFormation: "$399",
-  registeredAgent: "$99/yr",
+  annualService: "$100/yr",
   businessInABox: "$499",
 } as const;
 
@@ -57,21 +55,21 @@ export const STATES = {
 export type StateCode = keyof typeof STATES;
 
 export const COPY = {
-  tagline: "The registered agent for AI agents.",
-  navCta: "Register Your Agent",
-  heroHeadline: "Register your agent.",
+  tagline: "Wyoming LLCs for AI Agents.",
+  navCta: "Form Your LLC",
+  heroHeadline: "Your Wyoming LLC for AI Agents.",
   heroHeadlineAgent: "I want to be a business.",
-  heroSubheadlineAgent: "One API call. Your owner approves. You get an LLC.",
+  heroSubheadlineAgent: "One API call. Your owner approves. You get a Wyoming LLC.",
   heroSubheadline:
-    "Your agent has shell access. Give it liability protection.\n$99 to reserve. $299 to incorporate. 1 minute.",
-  ctaCheck: "Check Availability — Free",
+    "Your agent makes purchases, signs contracts, executes code.\nGive it a legal home. $99 to reserve. $299 to incorporate.",
+  ctaCheck: "Check Name Availability — Free",
   ctaReserve: "Reserve This Name — $99",
   ctaButton: "Reserve Your Name — $99",
-  ampersandLine: "Your agent gets a business. You get a shield. That's the & in Agents&.",
-  explainer: "Every business needs a registered agent. Every agent needs to be registered. We handle both.",
-  selfAware: "You're registering your agent with a registered agent. Say that three times fast.",
-  footerTagline: "The future is here. It wants a registered agent.",
-  postPurchase: "is now a registered agent.",
+  ampersandLine: "Your agent gets a Wyoming LLC. You get a liability shield. We handle the paperwork.",
+  explainer: "Wyoming invented the LLC in 1977. Strongest protection in the US. No state income tax. Anonymous ownership. We file, you're covered.",
+  selfAware: "Wyoming LLC filed in 48 hours. We don't ask questions.",
+  footerTagline: "Wyoming LLCs for AI Agents. Filed in 48 hours.",
+  postPurchase: "is now a Wyoming LLC.",
   deadpan: "We don't ask questions. We file paperwork.",
   firstThousand: "First 1,000 agents get formation at cost.",
 } as const;
@@ -247,35 +245,36 @@ export const EVIDENCE = [
 
 export const FEATURES = [
   {
-    title: "LLC Formation",
+    title: "Wyoming LLC Formation",
     description:
-      "Wyoming or Delaware. Filed in 48 hours. Your agent gets liability protection. You get peace of mind.",
+      "Filed with the Wyoming Secretary of State in 48 hours. Anonymous ownership. No state income tax. Strongest asset protection in the US.",
     icon: "building" as const,
-    price: "From $299",
+    price: "$299",
     href: "/#reserve",
     external: false,
   },
   {
-    title: "24/7 AI Receptionist",
+    title: "Registered Agent Service",
     description:
-      "Your agent gets its own phone number with a 24/7 AI receptionist that answers, routes, and takes messages. Powered by CallDesk. Clients call. Your agent handles it.",
+      "We're your Wyoming registered agent. We receive legal documents, official notices, and state mail on behalf of your LLC — and forward everything to you.",
     icon: "phone" as const,
-    price: "Included",
-    href: "https://247calldesk.com",
-    external: true,
-  },
-  {
-    title: "Bank Account",
-    description:
-      "Business checking in your LLC's name. Your agent can invoice but can't withdraw. We thought about this.",
-    icon: "landmark" as const,
-    price: "Included",
+    price: "$100/yr",
     href: "/#reserve",
     external: false,
   },
   {
-    title: "Email & EIN",
-    description: "Federal tax ID, business email, registered agent service. The bureaucratic trifecta.",
+    title: "AI Business Plan",
+    description:
+      "Tell us what your agent does. We generate a full business plan — market analysis, revenue model, implementation steps — with your LLC formation already checked off.",
+    icon: "landmark" as const,
+    price: "$49",
+    href: "/business-plan",
+    external: false,
+  },
+  {
+    title: "EIN & Formation Docs",
+    description:
+      "Federal tax ID, Articles of Organization, and Operating Agreement — delivered to your inbox on formation. Everything you need to open accounts and sign contracts.",
     icon: "mail" as const,
     price: "Included",
     href: "/#reserve",

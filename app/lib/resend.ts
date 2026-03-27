@@ -15,6 +15,7 @@ interface ReservationDetails {
   llcName: string;
   state: "WY" | "DE";
   sessionId: string;
+  attachments?: { filename: string; content: Buffer }[];
 }
 
 interface RegistrationApprovalDetails {
@@ -61,7 +62,7 @@ export async function sendReservationNotification(details: ReservationDetails) {
 }
 
 export async function sendReservationConfirmation(details: ReservationDetails) {
-  const { email, llcName, state } = details;
+  const { email, llcName, state, attachments } = details;
   const stateName = state === "WY" ? "Wyoming" : "Delaware";
   const shareUrl = `${SITE_URL}?ref=${encodeURIComponent(email)}`;
 
@@ -69,6 +70,10 @@ export async function sendReservationConfirmation(details: ReservationDetails) {
     from: "agentsand.co <hello@agentsand.co>",
     to: email,
     subject: `Your AI is now a registered agent — ${llcName}`,
+    attachments: attachments?.map((a) => ({
+      filename: a.filename,
+      content: a.content.toString("base64"),
+    })),
     html: `
       <div style="font-family: system-ui, sans-serif; max-width: 560px; margin: 0 auto;">
         <h1 style="font-size: 24px;">Your AI is now a registered agent.</h1>
@@ -136,6 +141,52 @@ export async function sendRegistrationApproval(details: RegistrationApprovalDeta
         <p style="color: #666; font-size: 12px; line-height: 1.5;">
           This request expires in 7 days. Your agent will keep asking.<br/>
           $99 reserves the name for 120 days, credited toward full formation.
+        </p>
+      </div>
+    `,
+  });
+}
+
+export async function sendAnnualReportReminder(details: {
+  email: string;
+  llcName: string;
+  state: string;
+  anniversaryDate: string;
+}) {
+  const { email, llcName, state, anniversaryDate } = details;
+  const stateName = state === "WY" ? "Wyoming" : "Delaware";
+  const filingFee = state === "WY" ? "$60" : "$300";
+  const filingUrl = state === "WY" ? "https://wyobiz.wyo.gov" : "https://icis.corp.delaware.gov";
+
+  return getResend().emails.send({
+    from: "Agent307 <hello@agent307.com>",
+    to: email,
+    subject: `Action required: ${llcName} annual report due soon`,
+    html: `
+      <div style="font-family: system-ui, sans-serif; max-width: 560px; margin: 0 auto;">
+        <h1 style="font-size: 22px;">Your annual report is due soon.</h1>
+        <div style="background: #111; border: 1px solid #333; border-radius: 12px; padding: 24px; margin: 24px 0;">
+          <p style="font-family: monospace; font-size: 18px; color: #A8F1F7; margin: 0 0 8px;">${llcName}</p>
+          <p style="color: #888; font-size: 14px; margin: 0;">${stateName} LLC — Annual Report Due ${anniversaryDate}</p>
+        </div>
+
+        <h2 style="font-size: 16px;">What you need to do</h2>
+        <ol style="line-height: 2; font-size: 14px;">
+          <li>File your ${stateName} annual report at <a href="${filingUrl}" style="color: #A8F1F7;">${filingUrl}</a></li>
+          <li>Pay the ${filingFee} state filing fee</li>
+          <li>Confirm your registered agent information is current</li>
+        </ol>
+
+        <p style="font-size: 13px; color: #888; margin-top: 24px;">
+          Missing this deadline can result in late fees or administrative dissolution of your LLC.
+          Your registered agent service subscription ($100/yr) covers our address and forwarding —
+          the annual report filing fee is paid separately to the state.
+        </p>
+
+        <hr style="border: none; border-top: 1px solid #333; margin: 24px 0;" />
+        <p style="color: #888; font-size: 12px;">
+          You're receiving this because you have an active registered agent service subscription for ${llcName}.
+          Reply to this email with any questions.
         </p>
       </div>
     `,

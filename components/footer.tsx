@@ -9,10 +9,10 @@ const footerLinks = [
   {
     title: "Services",
     links: [
-      { name: "Wyoming LLC", href: "#pricing" },
-      { name: "Delaware LLC", href: "#pricing" },
-      { name: "Registered Agent", href: "#trust" },
-      { name: "Business-in-a-Box", href: "#features" },
+      { name: "Name Reservation — $99", href: "#pricing" },
+      { name: "Wyoming LLC — $299", href: "#pricing" },
+      { name: "Registered Agent — $100/yr", href: "#pricing" },
+      { name: "Business-in-a-Box — $499", href: "#features" },
     ],
   },
   {
@@ -20,8 +20,8 @@ const footerLinks = [
     links: [
       { name: "Terms", href: "/terms" },
       { name: "Privacy", href: "/privacy" },
-      { name: "GitHub", href: "https://github.com/AgentsAndCo/agentsand" },
-      { name: "Twitter/X", href: "https://twitter.com/agentsandco" },
+      { name: "GitHub", href: "https://github.com/ToknWrks/Agent307" },
+      { name: "Why Wyoming", href: "#why-wyoming" },
     ],
   },
 ];
@@ -44,18 +44,15 @@ export function Footer() {
                   className="inline-flex items-center gap-2 transition-opacity hover:opacity-80"
                   href="/"
                 >
-                  <span className="text-lg" role="img" aria-label="island">
-                    🏝️
-                  </span>
                   <span className="font-bold text-2xl text-black tracking-tighter transition-colors dark:text-white">
-                    Agents &amp; Co.
+                    Agent307
                   </span>
                 </Link>
                 <p className="max-w-xs text-black/60 text-sm tracking-tighter dark:text-white/60">
-                  The registered agent for AI agents.
+                  Wyoming LLCs for AI Agents.
                 </p>
                 <p className="max-w-xs text-black/40 text-xs tracking-tighter dark:text-white/40">
-                  We don&apos;t ask questions. We file paperwork.
+                  Filed in 48 hours. We don&apos;t ask questions.
                 </p>
               </div>
 
@@ -116,16 +113,9 @@ export function Footer() {
             {/* Bottom Bar */}
             <div className="mt-6 flex flex-col justify-between gap-3 border-black/5 border-t pt-6 text-black/50 text-xs tracking-tighter sm:flex-row sm:items-center dark:border-white/10 dark:text-white/50">
               <div className="flex flex-col gap-1">
-                <p>&copy; 2026 Agents &amp; Co.</p>
+                <p>&copy; 2026 Agent307</p>
                 <p className="text-sm text-black/30 dark:text-white/30">
-                  <a
-                    href="https://x.com/agentsand_co"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="transition-colors hover:text-black/50 dark:hover:text-white/50"
-                  >
-                    Built by Agent Sand
-                  </a>
+                  Wyoming registered agent service
                 </p>
               </div>
               <div className="flex gap-4">

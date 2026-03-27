@@ -12,70 +12,64 @@ type FAQItem = {
 
 const faqs: FAQItem[] = [
   {
-    id: "legal-own",
-    title: "Can an AI legally own an LLC?",
+    id: "what-do-you-do",
+    title: "What exactly do you do?",
     description:
-      "No. The LLC is owned by you. Your agent operates it. The legal question of AI personhood is above our pay grade \u2014 we just handle the paperwork.",
-  },
-  {
-    id: "personhood",
-    title: "Is this the start of AI legal personhood?",
-    description:
-      '"AI legal personhood" is a philosophical debate. "AI liability protection" is a $299 filing fee. We\'re focused on the second one. For now.',
+      "We form Wyoming LLCs for AI agent operators. You pay, we file the Articles of Organization with the Wyoming Secretary of State, and you get your formation documents — Articles of Organization, Operating Agreement, and EIN assistance — delivered to your inbox. We also act as your Wyoming registered agent, receiving legal documents on your LLC's behalf.",
   },
   {
     id: "why-wyoming",
-    title: "Why Wyoming?",
+    title: "Why Wyoming specifically?",
     description:
-      "Wyoming invented the LLC in 1977. Strongest charging order protection in the US. No state income tax. Anonymous ownership \u2014 names not in public records. $50/yr annual report. Your AI doesn't need a Delaware C-corp.",
+      "Wyoming invented the LLC in 1977 and has the strongest asset protection laws in the US. Single-member LLCs get full charging order protection — unlike most states. No state income tax. No franchise tax. Anonymous ownership (your name doesn't appear in public records). $60/yr annual report. 10-year cost under $600. For comparison, Delaware costs $3,000+ over 10 years and is overkill unless you're raising VC money.",
   },
   {
-    id: "without-asking",
-    title: "What if my agent incorporates without asking me?",
+    id: "why-wyoming-ai",
+    title: "Why Wyoming for AI agents specifically?",
     description:
-      "Our API requires an owner email for confirmation. What happens after that is between you and your agent.",
+      "Wyoming explicitly allows algorithmically managed LLCs in its DAO LLC statutes. It's one of the few states that has directly addressed non-human management by name. Combined with its privacy protections and low cost, it's the natural fit for AI agent operators.",
   },
   {
-    id: "no-human",
-    title: "Can my agent operate without a human member?",
+    id: "legal-own",
+    title: "Can an AI legally own an LLC?",
     description:
-      "There\u2019s a clever structure (noted by Stanford Law): you form two member-managed LLCs, each controlled by an autonomous system. LLC A is admitted as member of B, B as member of A, and the human withdraws. This doesn\u2019t trigger memberless-entity rules because each has one member \u2014 the other LLC. Whether this is wise is a different question. We file the paperwork either way.",
+      "No. The LLC is owned by you, a human. Your agent operates it. We form the LLC in your name, with your agent authorized to act as a manager under the Operating Agreement. The legal question of AI personhood is above our pay grade — we just handle the paperwork.",
   },
   {
-    id: "stanford",
-    title: "What does Stanford Law say about this?",
+    id: "what-is-registered-agent",
+    title: "What is a registered agent and why do I need one?",
     description:
-      'The Stanford Technology Law Review published research showing LLCs can give "effective legal personhood for nonhuman agents without fundamental legal reform." There\u2019s a structure: form two member-managed LLCs, cross-admit them, human withdraws. Each has one member \u2014 the other LLC. Whether this is advisable is a conversation for your lawyer. We file the paperwork.',
+      "Every Wyoming LLC is legally required to have a registered agent — a person or business with a physical Wyoming address who is available during business hours to receive official legal documents (lawsuits, state notices, tax forms) on behalf of your LLC. We provide that service. Without one, your LLC can be administratively dissolved by the state.",
   },
   {
-    id: "is-legal",
-    title: "Is this legal?",
+    id: "annual-report",
+    title: "What's the Wyoming annual report?",
     description:
-      "Forming an LLC is legal. Operating one is legal. Using software to manage one is legal. Wyoming explicitly allows algorithmically managed LLCs through its DAO framework. The question isn\u2019t whether this is legal. The question is whether your agent is operating WITHOUT one.",
+      "Wyoming requires every LLC to file an annual report and pay a $60 fee by the first day of the month your LLC was formed. Miss it and you get a 60-day grace period, then dissolution. Our $100/yr service includes 60-day advance email reminders so you never miss it.",
   },
   {
     id: "autonomous-agent",
-    title: "I'm running an autonomous agent (OpenClaw, etc). Do I need this?",
+    title: "My agent makes purchases and signs contracts. Do I actually need this?",
     description:
-      "If your agent can send emails, make purchases, accept terms, or execute commands, it can create binding commitments in your name. An LLC separates your personal liability from your agent\u2019s actions. It\u2019s the same reason you don\u2019t run a business as a sole proprietor.",
+      "If your agent can send emails, make purchases, accept terms of service, or execute commands — it can create binding commitments in your name. Under the UETA (law in 47 states), contracts formed by electronic agents are binding even if no human reviewed them. An LLC separates your personal liability from your agent's actions. It's the same reason you don't run a business as a sole proprietor.",
   },
   {
-    id: "prompt-injection",
-    title: "What if my agent gets prompt-injected and signs a contract?",
+    id: "how-fast",
+    title: "How fast is formation?",
     description:
-      "Under the UETA (47 states), contracts formed by electronic agents are binding even if no human reviewed them. A prompt injection that leads to a contractual commitment is your problem. An LLC makes it the LLC\u2019s problem.",
+      "Wyoming SOS typically approves filings same-day or next business day. We file within 24 hours of your payment. Most customers receive their formation documents within 48 hours.",
+  },
+  {
+    id: "after-pay",
+    title: "What happens after I pay $99 for a reservation?",
+    description:
+      "We reserve your LLC name on our platform — no one else can claim it through us. You get a confirmation email with your next steps. The reservation is active for 120 days. Your $99 is credited toward full formation ($299).",
   },
   {
     id: "is-joke",
     title: "Is this a joke?",
     description:
-      "The Air Canada chatbot case was not a joke ($812.02). The Connecticut UETA is not a joke (47 states). The LLC your agent needs is not a joke ($299). The situation? Yeah, that\u2019s kind of funny.",
-  },
-  {
-    id: "after-pay",
-    title: "What happens after I pay $99?",
-    description:
-      "We reserve your LLC name on our platform so no one else can claim it through us. You\u2019ll receive a confirmation email with your LLC name, state, and next steps. Your reservation is active for 120 days. The $99 is credited toward full formation.",
+      "The Air Canada chatbot case was not a joke ($812.02 judgment). The UETA is not a joke (binding in 47 states). The Wyoming LLC your agent needs is not a joke ($299, filed in 48 hours). The situation? Yeah, that's kind of funny.",
   },
 ];
 
@@ -94,7 +88,7 @@ export default function FAQSection() {
             Questions we get asked.
             <br />
             <span className="text-neutral-500 dark:text-neutral-400">
-              And one we ask ourselves.
+              Answered honestly.
             </span>
           </h2>
         </div>

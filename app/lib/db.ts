@@ -82,6 +82,81 @@ export async function isNameReserved(name: string, state: string): Promise<boole
   }
 }
 
+// Required table:
+// CREATE TABLE annual_service (
+//   id SERIAL PRIMARY KEY,
+//   email TEXT NOT NULL,
+//   llc_name TEXT NOT NULL,
+//   state TEXT NOT NULL DEFAULT 'WY',
+//   stripe_customer_id TEXT,
+//   stripe_subscription_id TEXT UNIQUE,
+//   formation_date DATE,
+//   status TEXT NOT NULL DEFAULT 'active',
+//   created_at TIMESTAMPTZ DEFAULT NOW()
+// );
+
+export async function upsertAnnualService(data: {
+  email: string;
+  llcName: string;
+  state: string;
+  stripeCustomerId: string;
+  stripeSubscriptionId: string;
+  formationDate?: string;
+}): Promise<void> {
+  const client = getSql();
+  if (!client) return;
+  await client`
+    INSERT INTO annual_service (email, llc_name, state, stripe_customer_id, stripe_subscription_id, formation_date, status)
+    VALUES (
+      ${data.email}, ${data.llcName}, ${data.state},
+      ${data.stripeCustomerId}, ${data.stripeSubscriptionId},
+      ${data.formationDate || null}, 'active'
+    )
+    ON CONFLICT (stripe_subscription_id) DO UPDATE
+    SET status = 'active', stripe_customer_id = EXCLUDED.stripe_customer_id
+  `;
+}
+
+export async function cancelAnnualService(stripeSubscriptionId: string): Promise<void> {
+  const client = getSql();
+  if (!client) return;
+  await client`
+    UPDATE annual_service SET status = 'cancelled' WHERE stripe_subscription_id = ${stripeSubscriptionId}
+  `;
+}
+
+export interface AnnualServiceRecord {
+  email: string;
+  llc_name: string;
+  state: string;
+  formation_date: string | null;
+}
+
+export async function getUpcomingAnniversaries(daysAhead: number): Promise<AnnualServiceRecord[]> {
+  const client = getSql();
+  if (!client) return [];
+  // Find records whose anniversary (same month/day each year) falls within the next N days
+  const result = await client`
+    SELECT email, llc_name, state, formation_date
+    FROM annual_service
+    WHERE status = 'active'
+      AND formation_date IS NOT NULL
+      AND (
+        DATE_PART('month', formation_date::date) = DATE_PART('month', (CURRENT_DATE + (${daysAhead} || ' days')::interval)::date)
+        AND DATE_PART('day', formation_date::date) = DATE_PART('day', (CURRENT_DATE + (${daysAhead} || ' days')::interval)::date)
+      )
+  `;
+  return result as AnnualServiceRecord[];
+}
+
+export async function updateFormationDate(stripeSubscriptionId: string, formationDate: string): Promise<void> {
+  const client = getSql();
+  if (!client) return;
+  await client`
+    UPDATE annual_service SET formation_date = ${formationDate} WHERE stripe_subscription_id = ${stripeSubscriptionId}
+  `;
+}
+
 /** Seed offset so counters are nonzero at launch. Set to 0 once real traffic exceeds it. */
 export const SEED_COUNT = 147;
 
