@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Valid email is required" }, { status: 400 });
     }
 
-    const validState = state === "DE" ? "DE" : "WY";
+    const validState = "WY";
     const llcName = rawName?.trim() || generateLLCName();
     const product: ProductType =
       rawProduct === "formation" ? "formation" :

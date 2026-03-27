@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = new URL(request.url);
   const name = searchParams.get("name");
-  const state = (searchParams.get("state") || "WY") as StateCode;
+  const state = "WY";
 
   if (!name || name.trim().length < 2) {
     return NextResponse.json({ error: "Name is required (min 2 characters)" }, { status: 400 });

@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Name is required (min 2 characters)" }, { status: 400 });
     }
 
-    const state: StateCode = rawState === "DE" ? "DE" : "WY";
+    const state: StateCode = "WY";
     const trimmedName = name.trim();
 
     const [result, reserved] = await Promise.all([
