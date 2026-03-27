@@ -108,7 +108,6 @@ function HeroContent() {
     const n = searchParams.get("name");
     const s = searchParams.get("state");
     if (n) setLlcName(n);
-    if (s === "WY" || s === "DE") setState(s);
   }, [searchParams]);
 
   useEffect(() => {
