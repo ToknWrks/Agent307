@@ -125,7 +125,6 @@ function HeroContent() {
     const h = (e: Event) => {
       const { product: p, state: s } = (e as CustomEvent).detail;
       if (p) setProduct(p);
-      if (s) setState(s);
       nameInputRef.current?.focus();
     };
     window.addEventListener("set-product", h);
