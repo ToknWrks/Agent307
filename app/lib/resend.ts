@@ -40,7 +40,7 @@ export async function sendReservationNotification(details: ReservationDetails) {
   const stateName = state === "WY" ? "Wyoming" : "Delaware";
 
   return getResend().emails.send({
-    from: "agentsand.co <notifications@agentsand.co>",
+    from: "onboarding@resend.dev",
     to: NOTIFICATION_EMAIL,
     subject: `New LLC Reservation: ${llcName} (${stateName})`,
     html: `
@@ -67,7 +67,7 @@ export async function sendReservationConfirmation(details: ReservationDetails) {
   const shareUrl = `${SITE_URL}?ref=${encodeURIComponent(email)}`;
 
   return getResend().emails.send({
-    from: "agentsand.co <hello@agentsand.co>",
+    from: "onboarding@resend.dev",
     to: email,
     subject: `Your AI is now a registered agent — ${llcName}`,
     attachments: attachments?.map((a) => ({
@@ -110,7 +110,7 @@ export async function sendRegistrationApproval(details: RegistrationApprovalDeta
   const confirmUrl = `${SITE_URL}/confirm/${requestId}`;
 
   return getResend().emails.send({
-    from: "agentsand.co <hello@agentsand.co>",
+    from: "onboarding@resend.dev",
     to: ownerEmail,
     subject: "Your AI agent wants to be a business.",
     html: `
@@ -159,7 +159,7 @@ export async function sendAnnualReportReminder(details: {
   const filingUrl = state === "WY" ? "https://wyobiz.wyo.gov" : "https://icis.corp.delaware.gov";
 
   return getResend().emails.send({
-    from: "Agent307 <hello@agent307.com>",
+    from: "onboarding@resend.dev",
     to: email,
     subject: `Action required: ${llcName} annual report due soon`,
     html: `
@@ -200,7 +200,7 @@ export async function sendNameCheckResults(details: NameCheckResultsDetails) {
   if (available) {
     const reserveUrl = `${SITE_URL}/#reserve?name=${encodeURIComponent(llcName)}&state=${state}`;
     return getResend().emails.send({
-      from: "agentsand.co <hello@agentsand.co>",
+      from: "onboarding@resend.dev",
       to: email,
       subject: `${llcName} is available in ${stateName}`,
       html: `
@@ -224,7 +224,7 @@ export async function sendNameCheckResults(details: NameCheckResultsDetails) {
   }
 
   return getResend().emails.send({
-    from: "agentsand.co <hello@agentsand.co>",
+    from: "onboarding@resend.dev",
     to: email,
     subject: `${llcName} is taken — but we have ideas`,
     html: `
