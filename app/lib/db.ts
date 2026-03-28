@@ -194,6 +194,29 @@ export async function saveBusinessPlanSubmission(data: {
   return planId;
 }
 
+export interface BusinessPlanSubmission {
+  id: string;
+  llc_name: string | null;
+  agent_purpose: string;
+  industry: string | null;
+  target_customers: string | null;
+  revenue_model: string | null;
+  plan_json: object;
+  created_at: string;
+}
+
+export async function getBusinessPlanSubmissions(): Promise<BusinessPlanSubmission[]> {
+  const client = getSql();
+  if (!client) return [];
+  const result = await client`
+    SELECT id, llc_name, agent_purpose, industry, target_customers, revenue_model, plan_json, created_at
+    FROM business_plan_submissions
+    ORDER BY created_at DESC
+    LIMIT 100
+  `;
+  return result as BusinessPlanSubmission[];
+}
+
 export async function getBusinessPlanById(planId: string): Promise<object | null> {
   const client = getSql();
   if (!client) return null;

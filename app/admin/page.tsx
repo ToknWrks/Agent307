@@ -1,4 +1,5 @@
-import { CheckCircle, Circle } from "lucide-react";
+import { CheckCircle, Circle, FileText } from "lucide-react";
+import Link from "next/link";
 
 interface TodoItem {
   label: string;
@@ -190,7 +191,16 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground p-8 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-semibold tracking-tighter mb-1">Setup Checklist</h1>
+      <div className="flex items-center justify-between mb-1">
+        <h1 className="text-2xl font-semibold tracking-tighter">Setup Checklist</h1>
+        <Link
+          href="/admin/plans"
+          className="flex items-center gap-1.5 rounded-lg border border-black/10 bg-black/5 px-3 py-1.5 text-xs font-medium text-black/70 hover:bg-black/10 dark:border-white/10 dark:bg-white/5 dark:text-white/70 dark:hover:bg-white/10"
+        >
+          <FileText className="h-3.5 w-3.5" />
+          View Plans
+        </Link>
+      </div>
       <p className="text-sm text-muted-foreground mb-6">
         {doneCount} of {totalCount} steps complete ({pct}%)
       </p>
