@@ -280,22 +280,21 @@ export default function SuccessClient({
                 <p className="text-sm leading-relaxed text-black/80 dark:text-white/80">{plan.summary}</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <PlanSection title="The Problem">
-                  <p className="text-xs leading-relaxed text-black/60 dark:text-white/60">{plan.problem}</p>
-                </PlanSection>
-                <PlanSection title="The Solution">
-                  <p className="text-xs leading-relaxed text-black/60 dark:text-white/60">{plan.solution}</p>
-                </PlanSection>
-              </div>
+              <PlanSection title="The Problem">
+                <p className="text-sm leading-relaxed text-black/70 dark:text-white/70">{plan.problem}</p>
+              </PlanSection>
+
+              <PlanSection title="The Solution">
+                <p className="text-sm leading-relaxed text-black/70 dark:text-white/70">{plan.solution}</p>
+              </PlanSection>
 
               <PlanSection title="Market Analysis">
-                <p className="mb-1 text-xs font-medium text-black/70 dark:text-white/70">{plan.market?.tam}</p>
-                <p className="mb-2 text-xs text-black/50 dark:text-white/50">{plan.market?.sam}</p>
-                <ul className="space-y-1">
+                <p className="mb-1 text-sm font-medium text-black/80 dark:text-white/80">{plan.market?.tam}</p>
+                <p className="mb-3 text-sm text-black/60 dark:text-white/60">{plan.market?.sam}</p>
+                <ul className="space-y-1.5">
                   {plan.market?.targets?.map((t) => (
-                    <li key={t} className="flex items-center gap-2 text-xs text-black/50 dark:text-white/50">
-                      <span className="h-1 w-1 shrink-0 rounded-full bg-[#A8F1F7]" />{t}
+                    <li key={t} className="flex items-start gap-2 text-sm text-black/60 dark:text-white/60">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#A8F1F7]" />{t}
                     </li>
                   ))}
                 </ul>
@@ -303,11 +302,11 @@ export default function SuccessClient({
 
               {plan.competitive && (
                 <PlanSection title="Competitive Landscape">
-                  <p className="mb-2 text-xs leading-relaxed text-black/60 dark:text-white/60">{plan.competitive.landscape}</p>
-                  <ul className="space-y-1">
+                  <p className="mb-3 text-sm leading-relaxed text-black/70 dark:text-white/70">{plan.competitive.landscape}</p>
+                  <ul className="space-y-1.5">
                     {plan.competitive.advantages?.map((a) => (
-                      <li key={a} className="flex items-center gap-2 text-xs text-black/50 dark:text-white/50">
-                        <span className="h-1 w-1 shrink-0 rounded-full bg-[#A8F1F7]" />{a}
+                      <li key={a} className="flex items-start gap-2 text-sm text-black/60 dark:text-white/60">
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#A8F1F7]" />{a}
                       </li>
                     ))}
                   </ul>
@@ -315,26 +314,26 @@ export default function SuccessClient({
               )}
 
               <PlanSection title="Revenue Model">
-                <p className="mb-2 text-xs font-medium text-black/70 dark:text-white/70">{plan.revenue?.model}</p>
-                <ul className="mb-2 space-y-1">
+                <p className="mb-3 text-sm font-medium text-black/80 dark:text-white/80">{plan.revenue?.model}</p>
+                <ul className="mb-3 space-y-1.5">
                   {plan.revenue?.streams?.map((s) => (
-                    <li key={s} className="flex items-center gap-2 text-xs text-black/50 dark:text-white/50">
-                      <span className="h-1 w-1 shrink-0 rounded-full bg-[#A8F1F7]" />{s}
+                    <li key={s} className="flex items-start gap-2 text-sm text-black/60 dark:text-white/60">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#A8F1F7]" />{s}
                     </li>
                   ))}
                 </ul>
                 {plan.revenue?.projections && (
-                  <p className="text-xs italic text-black/40 dark:text-white/40">{plan.revenue.projections}</p>
+                  <p className="text-sm italic text-black/50 dark:text-white/50">{plan.revenue.projections}</p>
                 )}
               </PlanSection>
 
               {plan.gtm && (
                 <PlanSection title="Go-to-Market">
-                  <p className="mb-2 text-xs leading-relaxed text-black/60 dark:text-white/60">{plan.gtm.strategy}</p>
-                  <ul className="space-y-1">
+                  <p className="mb-3 text-sm leading-relaxed text-black/70 dark:text-white/70">{plan.gtm.strategy}</p>
+                  <ul className="space-y-1.5">
                     {plan.gtm.channels?.map((c) => (
-                      <li key={c} className="flex items-center gap-2 text-xs text-black/50 dark:text-white/50">
-                        <span className="h-1 w-1 shrink-0 rounded-full bg-[#A8F1F7]" />{c}
+                      <li key={c} className="flex items-start gap-2 text-sm text-black/60 dark:text-white/60">
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#A8F1F7]" />{c}
                       </li>
                     ))}
                   </ul>
@@ -342,37 +341,37 @@ export default function SuccessClient({
               )}
 
               <PlanSection title="Risks & Mitigations">
-                <ul className="space-y-2">
+                <ul className="space-y-3">
                   {plan.risks?.map((r, i) => (
-                    <li key={i} className="text-xs text-black/60 dark:text-white/60">
-                      <span className="font-medium text-red-400/80">{typeof r === "string" ? r : r.risk}</span>
+                    <li key={i} className="text-sm">
+                      <span className="font-medium text-red-400">{typeof r === "string" ? r : r.risk}</span>
                       {typeof r !== "string" && r.mitigation && (
-                        <span className="text-black/40 dark:text-white/40"> — {r.mitigation}</span>
+                        <p className="mt-0.5 text-black/50 dark:text-white/50">{r.mitigation}</p>
                       )}
                     </li>
                   ))}
                 </ul>
               </PlanSection>
 
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500">Implementation Steps</p>
                 {plan.steps?.map((step, i) => (
                   <div
                     key={i}
-                    className={`flex items-start gap-3 rounded-lg border p-3 ${
+                    className={`flex items-start gap-3 rounded-xl border p-4 ${
                       step.done
                         ? "border-[#A8F1F7]/20 bg-[#A8F1F7]/5"
                         : "border-black/5 bg-black/2 dark:border-white/10 dark:bg-white/5"
                     }`}>
                     {step.done
-                      ? <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#0e7490] dark:text-[#A8F1F7]" />
-                      : <Circle className="mt-0.5 h-4 w-4 shrink-0 text-neutral-400" />
+                      ? <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-[#0e7490] dark:text-[#A8F1F7]" />
+                      : <Circle className="mt-0.5 h-5 w-5 shrink-0 text-neutral-400" />
                     }
                     <div>
-                      <p className={`text-xs font-medium ${step.done ? "text-[#0e7490] dark:text-[#A8F1F7]" : "text-black/80 dark:text-white/80"}`}>
+                      <p className={`text-sm font-medium ${step.done ? "text-[#0e7490] dark:text-[#A8F1F7]" : "text-black/80 dark:text-white/80"}`}>
                         {step.title}
                       </p>
-                      <p className="mt-0.5 text-xs text-black/40 dark:text-white/40">{step.detail}</p>
+                      <p className="mt-1 text-sm text-black/50 dark:text-white/50">{step.detail}</p>
                     </div>
                   </div>
                 ))}

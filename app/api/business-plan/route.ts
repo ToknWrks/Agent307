@@ -13,89 +13,56 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Please describe what your agent does (min 10 characters)" }, { status: 400 });
     }
 
-    const prompt = `You are a senior business analyst writing a paid business plan for an AI-native company. Your job is to produce a specific, data-rich, actionable plan — not generic filler. Every section must contain concrete details, real market data estimates, named competitors or analogous businesses, and specific numbers wherever possible.
+    const prompt = `You are a business analyst writing a concise, specific business plan for an AI-native company. Be specific — use real numbers, name real competitors, give concrete tactics. No filler.
 
-Company details:
-- LLC Name: ${llcName || "AI Agent LLC"}
-- Industry: ${industry || "Not specified — infer from the agent description"}
-- What the agent does: ${agentPurpose}
-- Target customers: ${targetCustomers || "Infer from the agent description"}
-- Revenue model: ${revenueModel || "Infer the most logical model from the agent description"}
+LLC Name: ${llcName || "AI Agent LLC"}
+Industry: ${industry || "infer from description"}
+Agent: ${agentPurpose}
+Customers: ${targetCustomers || "infer"}
+Revenue: ${revenueModel || "infer best model"}
 
-Return a JSON object with this exact structure. Every field must be specific to THIS business — never generic. If you don't know a specific number, make a well-reasoned estimate and say so.
-
+Return ONLY valid JSON (no markdown):
 {
-  "summary": "3-4 sentence executive summary that names the specific problem, the agent's unique mechanism for solving it, the target market with a size estimate, and the primary revenue model. Be specific.",
-
-  "problem": "2-3 sentences describing the exact pain point with specificity. Include how businesses currently handle this problem and why that's inadequate. Name the cost or inefficiency in concrete terms (time, money, error rate).",
-
-  "solution": "2-3 sentences on how this specific agent solves it. Focus on the mechanism — what the agent actually does, how it's different from existing tools, and what outcome it produces.",
-
+  "summary": "2-3 sentences: problem, mechanism, market size estimate, revenue model.",
+  "problem": "1-2 sentences: specific pain, current workaround, cost in time/money.",
+  "solution": "1-2 sentences: how the agent solves it differently.",
   "market": {
-    "tam": "Total addressable market with a dollar figure and source reasoning (e.g. 'The global X market is estimated at $Y billion based on Z')",
-    "sam": "Serviceable addressable market — the realistic slice this agent can reach, with reasoning",
-    "targets": [
-      "Specific customer segment with a pain point and willingness to pay",
-      "Second segment",
-      "Third segment"
-    ]
+    "tam": "TAM with dollar figure and brief reasoning.",
+    "sam": "SAM — realistic reachable slice.",
+    "targets": ["segment with pain + willingness to pay", "segment 2", "segment 3"]
   },
-
   "competitive": {
-    "landscape": "2-3 sentences on who currently occupies this space — name real companies or categories of tools. Explain why this agent is differentiated.",
-    "advantages": [
-      "Specific competitive advantage 1",
-      "Specific competitive advantage 2",
-      "Specific competitive advantage 3"
-    ]
+    "landscape": "1-2 sentences naming real tools/companies and why this is differentiated.",
+    "advantages": ["advantage 1", "advantage 2", "advantage 3"]
   },
-
   "revenue": {
-    "model": "Primary revenue model with specific pricing logic (e.g. '$X/month per seat because Y', or '$X per transaction at Z% margin')",
-    "streams": [
-      "Primary revenue stream with estimated price point",
-      "Secondary stream",
-      "Tertiary or future stream"
-    ],
-    "projections": "Conservative Year 1 revenue estimate with assumptions stated (e.g. 'At $X/mo with Y customers by month 12 = $Z ARR')"
+    "model": "Pricing logic with specific dollar amount (e.g. $49/mo per seat).",
+    "streams": ["primary stream", "secondary stream", "future stream"],
+    "projections": "Year 1 estimate with stated assumptions (e.g. 50 customers × $49/mo = $29k ARR)."
   },
-
   "gtm": {
-    "strategy": "2-3 sentences on how to reach the first 100 customers. Be specific — name channels, tactics, or communities.",
-    "channels": [
-      "Specific channel 1 with tactic",
-      "Specific channel 2 with tactic",
-      "Specific channel 3 with tactic"
-    ]
+    "strategy": "1-2 sentences on reaching first 100 customers — specific channels/communities.",
+    "channels": ["channel + tactic", "channel + tactic", "channel + tactic"]
   },
-
   "risks": [
-    { "risk": "Specific risk", "mitigation": "Concrete mitigation strategy" },
-    { "risk": "Specific risk", "mitigation": "Concrete mitigation strategy" },
-    { "risk": "Specific risk", "mitigation": "Concrete mitigation strategy" }
+    { "risk": "specific risk", "mitigation": "concrete response" },
+    { "risk": "specific risk", "mitigation": "concrete response" },
+    { "risk": "specific risk", "mitigation": "concrete response" }
   ],
-
   "steps": [
-    { "title": "Wyoming LLC Formation", "detail": "File Articles of Organization with Wyoming SOS via Agent307. Establish EIN, registered agent, and operating agreement.", "done": true },
-    { "title": "Step 2 title", "detail": "Specific, actionable detail with a concrete deliverable or milestone", "done": false },
-    { "title": "Step 3 title", "detail": "Specific, actionable detail", "done": false },
-    { "title": "Step 4 title", "detail": "Specific, actionable detail", "done": false },
-    { "title": "Step 5 title", "detail": "Specific, actionable detail", "done": false },
-    { "title": "Step 6 title", "detail": "Specific, actionable detail", "done": false },
-    { "title": "Step 7 title", "detail": "Specific, actionable detail", "done": false }
+    { "title": "Wyoming LLC Formation", "detail": "File Articles of Organization via Agent307. Get EIN and operating agreement.", "done": true },
+    { "title": "step", "detail": "specific actionable detail", "done": false },
+    { "title": "step", "detail": "specific actionable detail", "done": false },
+    { "title": "step", "detail": "specific actionable detail", "done": false },
+    { "title": "step", "detail": "specific actionable detail", "done": false },
+    { "title": "step", "detail": "specific actionable detail", "done": false },
+    { "title": "step", "detail": "specific actionable detail", "done": false }
   ]
-}
-
-Rules:
-- Every section must be specific to this exact business. No filler phrases like "leverage synergies" or "build a strong team."
-- Steps 2-7 must be ordered by priority and specific to this business — not generic startup advice.
-- The competitive section must name real companies or tool categories, not say "there are many competitors."
-- Revenue projections must include real numbers and stated assumptions.
-- Return only valid JSON. No markdown, no code fences.`;
+}`;
 
     const message = await client.messages.create({
       model: "claude-sonnet-4-6",
-      max_tokens: 8192,
+      max_tokens: 3000,
       messages: [{ role: "user", content: prompt }],
     });
 
