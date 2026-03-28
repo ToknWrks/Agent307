@@ -61,7 +61,8 @@ The steps array must have exactly 7 items. The first item is always Wyoming LLC 
       throw new Error("Unexpected response type");
     }
 
-    const plan = JSON.parse(content.text);
+    const raw = content.text.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "").trim();
+    const plan = JSON.parse(raw);
 
     // Save submission in background — don't block the response
     saveBusinessPlanSubmission({ llcName, agentPurpose, industry, targetCustomers, revenueModel, plan }).catch(() => {});
