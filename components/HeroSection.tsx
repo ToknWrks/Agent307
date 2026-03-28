@@ -41,14 +41,14 @@ export default function HeroSection() {
     offset: ["start start", "end end"],
   });
 
-  // Hero fades out first
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.10], [1, 0]);
-  const heroEvents = useTransform(scrollYProgress, (v) => (v > 0.08 ? ("none" as const) : ("auto" as const)));
-  // Manifesto fades in after hero is mostly gone
-  const manifestoOpacity = useTransform(scrollYProgress, [0.12, 0.18], [0, 1]);
+  // Hero fades out as soon as user scrolls
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.06], [1, 0]);
+  const heroEvents = useTransform(scrollYProgress, (v) => (v > 0.04 ? ("none" as const) : ("auto" as const)));
+  // Manifesto crossfades in immediately
+  const manifestoOpacity = useTransform(scrollYProgress, [0.02, 0.08], [0, 1]);
 
   return (
-    <div id="reserve" ref={scrollRef} className="relative -mt-10 h-[450vh]">
+    <div id="reserve" ref={scrollRef} className="relative -mt-10 h-[600vh]">
       <div className="sticky top-[1rem] flex h-screen w-full items-center justify-center overflow-hidden">
         {/* Layer 1 — Hero (visible on load, fades on scroll) */}
         <motion.div
@@ -74,7 +74,7 @@ export default function HeroSection() {
                         progress={scrollYProgress}
                         wordIndex={gi}
                         totalWords={allWords.length}
-                        startOffset={0.18}>
+                        startOffset={0.06}>
                         {word}
                       </AnimatedWord>
                     );
