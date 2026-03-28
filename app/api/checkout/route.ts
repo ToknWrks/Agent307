@@ -3,26 +3,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { SITE_URL } from "@/app/lib/constants";
 import { generateLLCName } from "@/app/lib/llc-names";
 import { getStripe } from "@/app/lib/stripe";
+import { STRIPE_PRICES } from "@/config/stripe";
 
 type ProductType = "reservation" | "formation" | "annual_service";
 
-function getPriceId(product: ProductType, state: "WY" | "DE"): string {
-  if (product === "formation") {
-    const id =
-      state === "WY"
-        ? process.env.STRIPE_PRICE_WY_FORMATION
-        : process.env.STRIPE_PRICE_DE_FORMATION;
-    if (!id) throw new Error(`STRIPE_PRICE_${state}_FORMATION is not set`);
-    return id;
-  }
-  if (product === "annual_service") {
-    const id = process.env.STRIPE_PRICE_ANNUAL_SERVICE;
-    if (!id) throw new Error("STRIPE_PRICE_ANNUAL_SERVICE is not set");
-    return id;
-  }
-  const id = process.env.STRIPE_PRICE_RESERVATION;
-  if (!id) throw new Error("STRIPE_PRICE_RESERVATION is not set");
-  return id;
+function getPriceId(product: ProductType): string {
+  if (product === "formation") return STRIPE_PRICES.wyFormation;
+  if (product === "annual_service") return STRIPE_PRICES.annualService;
+  return STRIPE_PRICES.reservation;
 }
 
 export async function POST(request: NextRequest) {
@@ -40,7 +28,7 @@ export async function POST(request: NextRequest) {
       rawProduct === "formation" ? "formation" :
       rawProduct === "annual_service" ? "annual_service" :
       "reservation";
-    const priceId = getPriceId(product, validState);
+    const priceId = getPriceId(product);
     const isSubscription = product === "annual_service";
 
     const session = await getStripe().checkout.sessions.create({
