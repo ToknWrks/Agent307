@@ -16,9 +16,11 @@ interface BusinessPlan {
   summary: string;
   problem: string;
   solution: string;
-  market: { size: string; targets: string[] };
-  revenue: { model: string; streams: string[] };
-  risks: string[];
+  market: { tam: string; sam: string; targets: string[] };
+  competitive: { landscape: string; advantages: string[] };
+  revenue: { model: string; streams: string[]; projections: string };
+  gtm: { strategy: string; channels: string[] };
+  risks: { risk: string; mitigation: string }[];
   steps: { title: string; detail: string; done: boolean }[];
 }
 
@@ -287,10 +289,11 @@ export default function SuccessClient({
                 </PlanSection>
               </div>
 
-              <PlanSection title="Market Opportunity">
-                <p className="mb-2 text-xs font-medium text-black/70 dark:text-white/70">{plan.market.size}</p>
+              <PlanSection title="Market Analysis">
+                <p className="mb-1 text-xs font-medium text-black/70 dark:text-white/70">{plan.market?.tam}</p>
+                <p className="mb-2 text-xs text-black/50 dark:text-white/50">{plan.market?.sam}</p>
                 <ul className="space-y-1">
-                  {plan.market.targets.map((t) => (
+                  {plan.market?.targets?.map((t) => (
                     <li key={t} className="flex items-center gap-2 text-xs text-black/50 dark:text-white/50">
                       <span className="h-1 w-1 shrink-0 rounded-full bg-[#A8F1F7]" />{t}
                     </li>
@@ -298,22 +301,54 @@ export default function SuccessClient({
                 </ul>
               </PlanSection>
 
+              {plan.competitive && (
+                <PlanSection title="Competitive Landscape">
+                  <p className="mb-2 text-xs leading-relaxed text-black/60 dark:text-white/60">{plan.competitive.landscape}</p>
+                  <ul className="space-y-1">
+                    {plan.competitive.advantages?.map((a) => (
+                      <li key={a} className="flex items-center gap-2 text-xs text-black/50 dark:text-white/50">
+                        <span className="h-1 w-1 shrink-0 rounded-full bg-[#A8F1F7]" />{a}
+                      </li>
+                    ))}
+                  </ul>
+                </PlanSection>
+              )}
+
               <PlanSection title="Revenue Model">
-                <p className="mb-2 text-xs font-medium text-black/70 dark:text-white/70">{plan.revenue.model}</p>
-                <ul className="space-y-1">
-                  {plan.revenue.streams.map((s) => (
+                <p className="mb-2 text-xs font-medium text-black/70 dark:text-white/70">{plan.revenue?.model}</p>
+                <ul className="mb-2 space-y-1">
+                  {plan.revenue?.streams?.map((s) => (
                     <li key={s} className="flex items-center gap-2 text-xs text-black/50 dark:text-white/50">
                       <span className="h-1 w-1 shrink-0 rounded-full bg-[#A8F1F7]" />{s}
                     </li>
                   ))}
                 </ul>
+                {plan.revenue?.projections && (
+                  <p className="text-xs italic text-black/40 dark:text-white/40">{plan.revenue.projections}</p>
+                )}
               </PlanSection>
 
-              <PlanSection title="Key Risks">
-                <ul className="space-y-1">
-                  {plan.risks.map((r) => (
-                    <li key={r} className="flex items-center gap-2 text-xs text-black/50 dark:text-white/50">
-                      <span className="h-1 w-1 shrink-0 rounded-full bg-red-400/60" />{r}
+              {plan.gtm && (
+                <PlanSection title="Go-to-Market">
+                  <p className="mb-2 text-xs leading-relaxed text-black/60 dark:text-white/60">{plan.gtm.strategy}</p>
+                  <ul className="space-y-1">
+                    {plan.gtm.channels?.map((c) => (
+                      <li key={c} className="flex items-center gap-2 text-xs text-black/50 dark:text-white/50">
+                        <span className="h-1 w-1 shrink-0 rounded-full bg-[#A8F1F7]" />{c}
+                      </li>
+                    ))}
+                  </ul>
+                </PlanSection>
+              )}
+
+              <PlanSection title="Risks & Mitigations">
+                <ul className="space-y-2">
+                  {plan.risks?.map((r, i) => (
+                    <li key={i} className="text-xs text-black/60 dark:text-white/60">
+                      <span className="font-medium text-red-400/80">{typeof r === "string" ? r : r.risk}</span>
+                      {typeof r !== "string" && r.mitigation && (
+                        <span className="text-black/40 dark:text-white/40"> — {r.mitigation}</span>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -321,7 +356,7 @@ export default function SuccessClient({
 
               <div className="space-y-2">
                 <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500">Implementation Steps</p>
-                {plan.steps.map((step, i) => (
+                {plan.steps?.map((step, i) => (
                   <div
                     key={i}
                     className={`flex items-start gap-3 rounded-lg border p-3 ${

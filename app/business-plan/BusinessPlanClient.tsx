@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button";
 
 interface Teaser {
   summary: string;
-  problem: string;
-  solution: string;
 }
 
 export default function BusinessPlanClient() {
@@ -181,7 +179,7 @@ export default function BusinessPlanClient() {
           </form>
         ) : (
           <div className="space-y-6">
-            {/* Teaser — summary visible */}
+            {/* Teaser — summary only */}
             <div className="rounded-2xl border border-dashed border-[#A8F1F7]/40 p-2">
               <div className="rounded-xl border border-[#A8F1F7]/20 bg-[#A8F1F7]/5 p-6">
                 {llcName && (
@@ -191,40 +189,20 @@ export default function BusinessPlanClient() {
               </div>
             </div>
 
-            {/* Problem / Solution visible */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Section title="The Problem">
-                <p className="text-sm leading-relaxed text-black/70 dark:text-white/70">{teaser.problem}</p>
-              </Section>
-              <Section title="The Solution">
-                <p className="text-sm leading-relaxed text-black/70 dark:text-white/70">{teaser.solution}</p>
-              </Section>
-            </div>
-
             {/* Locked sections */}
             <div className="relative">
               <div className="pointer-events-none select-none space-y-4 blur-sm">
-                <Section title="Market Opportunity">
-                  <div className="space-y-2">
-                    <div className="h-4 w-3/4 rounded bg-black/10 dark:bg-white/10" />
-                    <div className="h-3 w-1/2 rounded bg-black/10 dark:bg-white/10" />
-                    <div className="h-3 w-2/3 rounded bg-black/10 dark:bg-white/10" />
-                  </div>
-                </Section>
-                <Section title="Revenue Model">
-                  <div className="space-y-2">
-                    <div className="h-4 w-2/3 rounded bg-black/10 dark:bg-white/10" />
-                    <div className="h-3 w-1/2 rounded bg-black/10 dark:bg-white/10" />
-                  </div>
-                </Section>
-                <Section title="Key Risks">
-                  <div className="space-y-2">
-                    <div className="h-3 w-3/4 rounded bg-black/10 dark:bg-white/10" />
-                    <div className="h-3 w-1/2 rounded bg-black/10 dark:bg-white/10" />
-                  </div>
-                </Section>
+                {["Problem & Solution", "Market Analysis (TAM/SAM)", "Competitive Landscape", "Revenue Model & Projections", "Go-to-Market Strategy", "Risks & Mitigations"].map((title) => (
+                  <Section key={title} title={title}>
+                    <div className="space-y-2">
+                      <div className="h-3 w-full rounded bg-black/10 dark:bg-white/10" />
+                      <div className="h-3 w-4/5 rounded bg-black/10 dark:bg-white/10" />
+                      <div className="h-3 w-3/5 rounded bg-black/10 dark:bg-white/10" />
+                    </div>
+                  </Section>
+                ))}
                 <div className="rounded-xl border border-black/5 p-5 dark:border-white/10">
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-500">Implementation Steps</p>
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-500">7 Implementation Steps</p>
                   <div className="space-y-3">
                     {[...Array(7)].map((_, i) => (
                       <div key={i} className="flex items-center gap-3">
@@ -237,10 +215,11 @@ export default function BusinessPlanClient() {
               </div>
               {/* Lock overlay */}
               <div className="absolute inset-0 flex flex-col items-center justify-center rounded-xl">
-                <div className="flex flex-col items-center gap-2 rounded-xl border border-black/10 bg-white/90 px-6 py-4 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-black/80">
+                <div className="flex flex-col items-center gap-2 rounded-xl border border-black/10 bg-white/90 px-6 py-5 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-black/80">
                   <Lock className="h-5 w-5 text-[#0e7490] dark:text-[#A8F1F7]" />
-                  <p className="text-sm font-medium text-black/70 dark:text-white/70">
-                    Market analysis, revenue model, risks & 7 implementation steps
+                  <p className="text-sm font-semibold text-black/80 dark:text-white/80">Full plan locked</p>
+                  <p className="text-xs text-center text-neutral-500 max-w-[240px]">
+                    Problem/solution, TAM/SAM, competitive landscape, revenue projections, go-to-market strategy, risks & 7 implementation steps
                   </p>
                 </div>
               </div>

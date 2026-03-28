@@ -6,11 +6,8 @@ export const dynamic = "force-dynamic";
 
 interface BusinessPlan {
   summary: string;
-  problem: string;
-  solution: string;
-  market: { size: string; targets: string[] };
-  revenue: { model: string; streams: string[] };
-  risks: string[];
+  market: { tam: string; sam: string; targets: string[] };
+  revenue: { model: string; projections: string };
   steps: { title: string; detail: string; done: boolean }[];
 }
 
@@ -95,14 +92,17 @@ export default async function PlansPage() {
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   {/* Market */}
                   <div className="rounded-lg border border-black/5 p-3 dark:border-white/10">
-                    <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-neutral-500">Market</p>
-                    <p className="text-xs text-black/60 dark:text-white/60">{plan.market?.size}</p>
+                    <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-neutral-500">TAM</p>
+                    <p className="text-xs text-black/60 dark:text-white/60">{plan.market?.tam}</p>
                   </div>
 
                   {/* Revenue */}
                   <div className="rounded-lg border border-black/5 p-3 dark:border-white/10">
                     <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-neutral-500">Revenue</p>
                     <p className="text-xs text-black/60 dark:text-white/60">{plan.revenue?.model}</p>
+                    {plan.revenue?.projections && (
+                      <p className="mt-1 text-xs italic text-black/40 dark:text-white/40">{plan.revenue.projections}</p>
+                    )}
                   </div>
                 </div>
 
