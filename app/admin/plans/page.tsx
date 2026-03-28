@@ -89,19 +89,19 @@ export default async function PlansPage() {
                   <p className="text-sm text-black/80 dark:text-white/80">{plan.summary}</p>
                 </div>
 
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="space-y-3">
                   {/* Market */}
                   <div className="rounded-lg border border-black/5 p-3 dark:border-white/10">
                     <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-neutral-500">TAM</p>
-                    <p className="text-xs text-black/60 dark:text-white/60">{plan.market?.tam}</p>
+                    <p className="text-sm text-black/60 dark:text-white/60">{plan.market?.tam}</p>
                   </div>
 
                   {/* Revenue */}
                   <div className="rounded-lg border border-black/5 p-3 dark:border-white/10">
                     <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-neutral-500">Revenue</p>
-                    <p className="text-xs text-black/60 dark:text-white/60">{plan.revenue?.model}</p>
+                    <p className="text-sm text-black/60 dark:text-white/60">{plan.revenue?.model}</p>
                     {plan.revenue?.projections && (
-                      <p className="mt-1 text-xs italic text-black/40 dark:text-white/40">{plan.revenue.projections}</p>
+                      <p className="mt-1 text-sm italic text-black/40 dark:text-white/40">{plan.revenue.projections}</p>
                     )}
                   </div>
                 </div>
