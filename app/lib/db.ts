@@ -168,6 +168,16 @@ export async function updateFormationDate(stripeSubscriptionId: string, formatio
 //   created_at TIMESTAMPTZ DEFAULT NOW()
 // );
 
+export async function checkBusinessPlanRateLimit(ip: string, limitPerHour = 5): Promise<boolean> {
+  const client = getSql();
+  if (!client) return true; // allow if no DB
+  const result = await client`
+    SELECT COUNT(*) as count FROM business_plan_submissions
+    WHERE ip = ${ip} AND created_at > NOW() - INTERVAL '1 hour'
+  `;
+  return Number(result[0].count) < limitPerHour;
+}
+
 export async function saveBusinessPlanSubmission(data: {
   llcName?: string;
   agentPurpose: string;
@@ -175,12 +185,13 @@ export async function saveBusinessPlanSubmission(data: {
   targetCustomers?: string;
   revenueModel?: string;
   plan: object;
+  ip?: string;
 }): Promise<string> {
   const planId = nanoid(12);
   const client = getSql();
   if (!client) return planId;
   await client`
-    INSERT INTO business_plan_submissions (id, llc_name, agent_purpose, industry, target_customers, revenue_model, plan_json)
+    INSERT INTO business_plan_submissions (id, llc_name, agent_purpose, industry, target_customers, revenue_model, plan_json, ip)
     VALUES (
       ${planId},
       ${data.llcName || null},
@@ -188,7 +199,8 @@ export async function saveBusinessPlanSubmission(data: {
       ${data.industry || null},
       ${data.targetCustomers || null},
       ${data.revenueModel || null},
-      ${JSON.stringify(data.plan)}
+      ${JSON.stringify(data.plan)},
+      ${data.ip || null}
     )
   `;
   return planId;

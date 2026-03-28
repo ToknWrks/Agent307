@@ -1,6 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
-import { saveBusinessPlanSubmission } from "@/app/lib/db";
+import { saveBusinessPlanSubmission, checkBusinessPlanRateLimit } from "@/app/lib/db";
 
 const client = new Anthropic();
 
@@ -11,6 +11,19 @@ export async function POST(request: NextRequest) {
 
     if (!agentPurpose || typeof agentPurpose !== "string" || agentPurpose.trim().length < 10) {
       return NextResponse.json({ error: "Please describe what your agent does (min 10 characters)" }, { status: 400 });
+    }
+
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
+
+    const allowed = await checkBusinessPlanRateLimit(ip);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again in an hour." },
+        { status: 429 }
+      );
     }
 
     const prompt = `You are a business analyst writing a concise, specific business plan for an AI-native company. Be specific — use real numbers, name real competitors, give concrete tactics. No filler.
@@ -72,7 +85,7 @@ Return ONLY valid JSON (no markdown):
     const raw = content.text.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "").trim();
     const plan = JSON.parse(raw);
 
-    const planId = await saveBusinessPlanSubmission({ llcName, agentPurpose, industry, targetCustomers, revenueModel, plan });
+    const planId = await saveBusinessPlanSubmission({ llcName, agentPurpose, industry, targetCustomers, revenueModel, plan, ip });
 
     return NextResponse.json({
       planId,
