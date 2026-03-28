@@ -78,7 +78,7 @@ const faqs = [
   },
   {
     q: "What does 'registered agent' mean and why is it included?",
-    a: "Every Wyoming LLC must have a registered agent — a person or company with a physical Wyoming address available during business hours to receive legal documents. We serve as your registered agent. Without one, your LLC can be administratively dissolved. Your first year is included free with formation; $100/yr after that.",
+    a: "Every Wyoming LLC must have a registered agent — a person or company with a physical Wyoming address available during business hours to receive legal documents. We serve as your registered agent. Without one, your LLC can be administratively dissolved. Your first year is included free with formation; $99/yr after that.",
   },
   {
     q: "Can my AI agent be listed as a manager of the LLC?",

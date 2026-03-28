@@ -4,20 +4,20 @@ import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Wyoming Registered Agent Service | Agent307 — $100/yr",
+  title: "Wyoming Registered Agent Service | Agent307 — $99/yr",
   description:
-    "Wyoming registered agent service for AI agent operators and LLCs. $100/year. We receive legal documents and state notices on your behalf, forward everything to you, and send 60-day annual report reminders.",
+    "Wyoming registered agent service for AI agent operators and LLCs. $99/year. We receive legal documents and state notices on your behalf, forward everything to you, and send 60-day annual report reminders.",
   keywords: [
     "Wyoming registered agent",
     "registered agent service Wyoming",
     "Wyoming LLC registered agent",
     "AI agent LLC registered agent",
-    "Wyoming registered agent $100",
+    "Wyoming registered agent $99",
   ],
   openGraph: {
-    title: "Wyoming Registered Agent Service — $100/yr | Agent307",
+    title: "Wyoming Registered Agent Service — $99/yr | Agent307",
     description:
-      "Wyoming registered agent for AI-operated LLCs. $100/year. We receive your legal mail, forward it to you, and remind you before your annual report is due.",
+      "Wyoming registered agent for AI-operated LLCs. $99/year. We receive your legal mail, forward it to you, and remind you before your annual report is due.",
     url: `${SITE_URL}/registered-agent`,
   },
 };
@@ -27,10 +27,10 @@ const jsonLd = {
   "@type": "Service",
   name: "Wyoming Registered Agent Service",
   provider: { "@type": "Organization", name: "Agent307", url: SITE_URL },
-  description: "Wyoming registered agent service for LLCs. $100/year.",
+  description: "Wyoming registered agent service for LLCs. $99/year.",
   offers: {
     "@type": "Offer",
-    price: "100",
+    price: "99",
     priceCurrency: "USD",
     description: "Annual Wyoming registered agent service including document receipt, forwarding, and annual report reminders.",
   },
@@ -64,7 +64,7 @@ const faqs = [
   },
   {
     q: "Is the first year included with LLC formation?",
-    a: "Yes. When you form a Wyoming LLC through Agent307, registered agent service is included free for the first year. After that, it's $100/year, billed automatically.",
+    a: "Yes. When you form a Wyoming LLC through Agent307, registered agent service is included free for the first year. After that, it's $99/year, billed automatically.",
   },
   {
     q: "Can I use my own Wyoming address instead?",
@@ -88,7 +88,7 @@ export default function RegisteredAgentPage() {
               </span>
               <h1 className="text-4xl font-bold tracking-tighter md:text-6xl">
                 Wyoming registered agent.
-                <span className="block text-[#0e7490] dark:text-[#A8F1F7]">$100 per year.</span>
+                <span className="block text-[#0e7490] dark:text-[#A8F1F7]">$99 per year.</span>
               </h1>
               <p className="max-w-xl text-lg text-neutral-500 dark:text-neutral-400">
                 Every Wyoming LLC needs a registered agent with a physical Wyoming address — available during business hours to receive legal documents. We handle it. You get notified when anything arrives.
@@ -97,7 +97,7 @@ export default function RegisteredAgentPage() {
                 <Link
                   href="/#pricing"
                   className="group inline-flex items-center gap-2 rounded-lg bg-[#A8F1F7] px-6 py-3 text-base font-semibold text-neutral-900 transition-all hover:scale-[1.02] hover:bg-[#A8F1F7]/80 hover:shadow-md">
-                  Subscribe — $100/yr
+                  Subscribe — $99/yr
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
                 <Link
@@ -190,13 +190,13 @@ export default function RegisteredAgentPage() {
               Keep your LLC in good standing.
             </h2>
             <p className="mb-8 text-lg text-neutral-500 dark:text-neutral-400">
-              Wyoming registered agent service. $100/year. Includes your first year free with LLC formation.
+              Wyoming registered agent service. $99/year. Includes your first year free with LLC formation.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Link
                 href="/#pricing"
                 className="group inline-flex items-center gap-2 rounded-lg bg-[#A8F1F7] px-8 py-4 text-lg font-semibold text-neutral-900 transition-all hover:scale-[1.02] hover:bg-[#A8F1F7]/80 hover:shadow-md">
-                Subscribe — $100/yr
+                Subscribe — $99/yr
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </div>

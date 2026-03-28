@@ -91,7 +91,7 @@ function getSetupStatus(): TodoGroup[] {
           done: !!env.STRIPE_PRICE_DE_FORMATION,
         },
         {
-          label: "Create Annual Service subscription price ($100/yr) and set STRIPE_PRICE_ANNUAL_SERVICE",
+          label: "Create Annual Service subscription price ($99/yr) and set STRIPE_PRICE_ANNUAL_SERVICE",
           detail: "Create a recurring annual product in Stripe. Copy the price ID (price_...).",
           done: !!env.STRIPE_PRICE_ANNUAL_SERVICE,
         },
@@ -118,7 +118,7 @@ function getSetupStatus(): TodoGroup[] {
         },
         {
           label: "Register as a Commercial Registered Agent with Wyoming SOS",
-          detail: "Required to provide registered agent services commercially. File at wyobiz.wyo.gov — $100/year.",
+          detail: "Required to provide registered agent services commercially. File at wyobiz.wyo.gov — $99/year.",
           done: false,
         },
         {

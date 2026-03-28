@@ -10,14 +10,14 @@ const prices = {
   test: {
     reservation:    "price_0TFkDcL8wQqMeneGucw5G7rc",   // $99 one-time
     wyFormation:    "price_0TFkDyL8wQqMeneGw9mK6ENk",   // $299 one-time
-    annualService:  "price_0TFkETL8wQqMeneGvbR4m58N",   // $100/yr recurring
+    annualService:  "price_0TFkETL8wQqMeneGvbR4m58N",   // $99/yr recurring
     aiBusinessPlan: "price_0TFljKL8wQqMeneGyk5KkPQV",
   },
   // Live mode price IDs
   live: {
     reservation:    "price_0TFhyqL8wQqMeneGhFKwbKmY",   // $99 one-time
     wyFormation:    "price_0TFhy3L8wQqMeneGRYEOB7Ej",   // $299 one-time
-    annualService:  "price_0TFkmLL8wQqMeneGSxORaxsb",   // $100/yr recurring
+    annualService:  "price_0TFkmLL8wQqMeneGSxORaxsb",   // $99/yr recurring
     aiBusinessPlan: "price_0TFljTL8wQqMeneGVzRJ7vJT",
   },
 };

@@ -27,7 +27,7 @@ export const NAVIGATION_ITEMS: NavigationMenu[] = [
         name: "Wyoming LLC",
         items: [
           { name: "Form Your LLC — $299", href: "/form-wyoming-llc", icon: Shield },
-          { name: "Registered Agent — $100/yr", href: "/registered-agent", icon: MapPin },
+          { name: "Registered Agent — $99/yr", href: "/registered-agent", icon: MapPin },
           { name: "EIN & Formation Docs", href: "/ein-formation-docs", icon: Mail },
         ],
       },

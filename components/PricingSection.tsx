@@ -40,8 +40,8 @@ const pricingPlans = [
     product: "formation" as const,
   },
   {
-    name: "$100 Annual Service",
-    price: 100,
+    name: "$99 Annual Service",
+    price: 99,
     period: "/yr",
     tagline: "Stay compliant",
     description: "Registered agent service + annual report reminders. We keep your LLC in good standing.",

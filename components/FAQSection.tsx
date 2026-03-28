@@ -45,7 +45,7 @@ const faqs: FAQItem[] = [
     id: "annual-report",
     title: "What's the Wyoming annual report?",
     description:
-      "Wyoming requires every LLC to file an annual report and pay a $60 fee by the first day of the month your LLC was formed. Miss it and you get a 60-day grace period, then dissolution. Our $100/yr service includes 60-day advance email reminders so you never miss it.",
+      "Wyoming requires every LLC to file an annual report and pay a $60 fee by the first day of the month your LLC was formed. Miss it and you get a 60-day grace period, then dissolution. Our $99/yr service includes 60-day advance email reminders so you never miss it.",
   },
   {
     id: "autonomous-agent",

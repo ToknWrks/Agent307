@@ -4,14 +4,14 @@ export const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || "service@age
 export const PRICING = {
   reservation: 9900, // $99 in cents
   wyFormation: 29900,
-  annualService: 10000, // $100/yr registered agent service
+  annualService: 9900, // $99/yr registered agent service
   businessInABox: 49900,
 } as const;
 
 export const PRICING_DISPLAY = {
   reservation: "$99",
   wyFormation: "$299",
-  annualService: "$100/yr",
+  annualService: "$99/yr",
   businessInABox: "$499",
 } as const;
 

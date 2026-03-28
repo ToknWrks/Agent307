@@ -11,7 +11,7 @@ const footerLinks = [
     links: [
       { name: "Name Reservation — $99", href: "#pricing" },
       { name: "Wyoming LLC — $299", href: "#pricing" },
-      { name: "Registered Agent — $100/yr", href: "#pricing" },
+      { name: "Registered Agent — $99/yr", href: "#pricing" },
       { name: "Business-in-a-Box — $499", href: "#features" },
     ],
   },

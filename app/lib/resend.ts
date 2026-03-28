@@ -179,7 +179,7 @@ export async function sendAnnualReportReminder(details: {
 
         <p style="font-size: 13px; color: #888; margin-top: 24px;">
           Missing this deadline can result in late fees or administrative dissolution of your LLC.
-          Your registered agent service subscription ($100/yr) covers our address and forwarding —
+          Your registered agent service subscription ($99/yr) covers our address and forwarding —
           the annual report filing fee is paid separately to the state.
         </p>
 
