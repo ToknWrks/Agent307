@@ -3,12 +3,24 @@
 import { useState } from "react";
 import {
   Check,
+  CheckCircle,
   ChevronDown,
+  Circle,
   Copy,
   ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SHARE_TEMPLATES } from "@/app/lib/constants";
+
+interface BusinessPlan {
+  summary: string;
+  problem: string;
+  solution: string;
+  market: { size: string; targets: string[] };
+  revenue: { model: string; streams: string[] };
+  risks: string[];
+  steps: { title: string; detail: string; done: boolean }[];
+}
 
 const tweetOptions = [
   { id: "default", label: "Tweet 1" },
@@ -23,6 +35,8 @@ export default function SuccessClient({
   siteUrl,
   postPurchaseCopy,
   agentNumber,
+  product,
+  fullPlan,
 }: {
   llcName: string;
   stateName: string;
@@ -30,7 +44,10 @@ export default function SuccessClient({
   siteUrl: string;
   postPurchaseCopy: string;
   agentNumber: number | null;
+  product: string;
+  fullPlan: object | null;
 }) {
+  const plan = fullPlan as BusinessPlan | null;
   const [copied, setCopied] = useState(false);
   const [completedActions, setCompletedActions] = useState<Set<number>>(
     new Set()
@@ -250,19 +267,96 @@ export default function SuccessClient({
             </div>
           )}
 
-          {/* Business plan cross-sell */}
-          <div className="flex w-full max-w-md items-center justify-between rounded-xl border border-[#A8F1F7]/20 bg-[#A8F1F7]/5 px-5 py-4">
-            <p className="text-sm text-neutral-600 dark:text-neutral-300">
-              Your agent has an LLC. Now give it a business plan.
-            </p>
-            <a
-              href="/business-plan"
-              className="ml-4 flex shrink-0 items-center gap-1.5 rounded-lg bg-[#A8F1F7] px-3 py-2 text-xs font-medium text-neutral-900 transition-all hover:bg-[#A8F1F7]/80"
-            >
-              Generate Plan
-              <ExternalLink className="h-3 w-3" />
-            </a>
-          </div>
+          {/* Business plan cross-sell or full plan */}
+          {plan ? (
+            <div className="w-full max-w-md space-y-4">
+              <p className="text-center text-xs font-semibold uppercase tracking-widest text-neutral-400">
+                Your AI Business Plan
+              </p>
+
+              <div className="rounded-xl border border-[#A8F1F7]/20 bg-[#A8F1F7]/5 p-5">
+                <p className="text-sm leading-relaxed text-black/80 dark:text-white/80">{plan.summary}</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <PlanSection title="The Problem">
+                  <p className="text-xs leading-relaxed text-black/60 dark:text-white/60">{plan.problem}</p>
+                </PlanSection>
+                <PlanSection title="The Solution">
+                  <p className="text-xs leading-relaxed text-black/60 dark:text-white/60">{plan.solution}</p>
+                </PlanSection>
+              </div>
+
+              <PlanSection title="Market Opportunity">
+                <p className="mb-2 text-xs font-medium text-black/70 dark:text-white/70">{plan.market.size}</p>
+                <ul className="space-y-1">
+                  {plan.market.targets.map((t) => (
+                    <li key={t} className="flex items-center gap-2 text-xs text-black/50 dark:text-white/50">
+                      <span className="h-1 w-1 shrink-0 rounded-full bg-[#A8F1F7]" />{t}
+                    </li>
+                  ))}
+                </ul>
+              </PlanSection>
+
+              <PlanSection title="Revenue Model">
+                <p className="mb-2 text-xs font-medium text-black/70 dark:text-white/70">{plan.revenue.model}</p>
+                <ul className="space-y-1">
+                  {plan.revenue.streams.map((s) => (
+                    <li key={s} className="flex items-center gap-2 text-xs text-black/50 dark:text-white/50">
+                      <span className="h-1 w-1 shrink-0 rounded-full bg-[#A8F1F7]" />{s}
+                    </li>
+                  ))}
+                </ul>
+              </PlanSection>
+
+              <PlanSection title="Key Risks">
+                <ul className="space-y-1">
+                  {plan.risks.map((r) => (
+                    <li key={r} className="flex items-center gap-2 text-xs text-black/50 dark:text-white/50">
+                      <span className="h-1 w-1 shrink-0 rounded-full bg-red-400/60" />{r}
+                    </li>
+                  ))}
+                </ul>
+              </PlanSection>
+
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500">Implementation Steps</p>
+                {plan.steps.map((step, i) => (
+                  <div
+                    key={i}
+                    className={`flex items-start gap-3 rounded-lg border p-3 ${
+                      step.done
+                        ? "border-[#A8F1F7]/20 bg-[#A8F1F7]/5"
+                        : "border-black/5 bg-black/2 dark:border-white/10 dark:bg-white/5"
+                    }`}>
+                    {step.done
+                      ? <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#0e7490] dark:text-[#A8F1F7]" />
+                      : <Circle className="mt-0.5 h-4 w-4 shrink-0 text-neutral-400" />
+                    }
+                    <div>
+                      <p className={`text-xs font-medium ${step.done ? "text-[#0e7490] dark:text-[#A8F1F7]" : "text-black/80 dark:text-white/80"}`}>
+                        {step.title}
+                      </p>
+                      <p className="mt-0.5 text-xs text-black/40 dark:text-white/40">{step.detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="flex w-full max-w-md items-center justify-between rounded-xl border border-[#A8F1F7]/20 bg-[#A8F1F7]/5 px-5 py-4">
+              <p className="text-sm text-neutral-600 dark:text-neutral-300">
+                Your agent has an LLC. Now give it a business plan.
+              </p>
+              <a
+                href="/business-plan"
+                className="ml-4 flex shrink-0 items-center gap-1.5 rounded-lg bg-[#A8F1F7] px-3 py-2 text-xs font-medium text-neutral-900 transition-all hover:bg-[#A8F1F7]/80"
+              >
+                Generate Plan
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
+          )}
 
           {/* Next steps */}
           <div className="w-full max-w-md border-t border-black/5 pt-6 dark:border-white/10">
@@ -290,5 +384,14 @@ export default function SuccessClient({
         </div>
       </div>
     </section>
+  );
+}
+
+function PlanSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="rounded-xl border border-black/5 bg-black/2 p-4 dark:border-white/10 dark:bg-white/5">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-neutral-500">{title}</p>
+      {children}
+    </div>
   );
 }

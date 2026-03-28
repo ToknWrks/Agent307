@@ -158,7 +158,7 @@ export async function updateFormationDate(stripeSubscriptionId: string, formatio
 }
 
 // CREATE TABLE business_plan_submissions (
-//   id SERIAL PRIMARY KEY,
+//   id TEXT PRIMARY KEY,
 //   llc_name TEXT,
 //   agent_purpose TEXT NOT NULL,
 //   industry TEXT,
@@ -175,12 +175,14 @@ export async function saveBusinessPlanSubmission(data: {
   targetCustomers?: string;
   revenueModel?: string;
   plan: object;
-}): Promise<void> {
+}): Promise<string> {
+  const planId = nanoid(12);
   const client = getSql();
-  if (!client) return;
+  if (!client) return planId;
   await client`
-    INSERT INTO business_plan_submissions (llc_name, agent_purpose, industry, target_customers, revenue_model, plan_json)
+    INSERT INTO business_plan_submissions (id, llc_name, agent_purpose, industry, target_customers, revenue_model, plan_json)
     VALUES (
+      ${planId},
       ${data.llcName || null},
       ${data.agentPurpose},
       ${data.industry || null},
@@ -189,6 +191,17 @@ export async function saveBusinessPlanSubmission(data: {
       ${JSON.stringify(data.plan)}
     )
   `;
+  return planId;
+}
+
+export async function getBusinessPlanById(planId: string): Promise<object | null> {
+  const client = getSql();
+  if (!client) return null;
+  const result = await client`
+    SELECT plan_json FROM business_plan_submissions WHERE id = ${planId}
+  `;
+  if (result.length === 0) return null;
+  return result[0].plan_json as object;
 }
 
 /** Seed offset so counters are nonzero at launch. Set to 0 once real traffic exceeds it. */

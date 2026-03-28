@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getStripe } from "@/app/lib/stripe";
-import { getPositionBySessionId } from "@/app/lib/db";
+import { getPositionBySessionId, getBusinessPlanById } from "@/app/lib/db";
 import { COPY, SITE_URL } from "@/app/lib/constants";
 import SuccessClient from "./SuccessClient";
 
@@ -30,19 +30,17 @@ export async function generateMetadata({
   const ogUrl = `${SITE_URL}/api/og?name=${encodeURIComponent(llcName)}&state=${encodeURIComponent(state)}`;
 
   return {
-    title: `${llcName} — Registered | Agents & Co.`,
-    description: `${llcName} is now a registered agent. agentsand.co`,
+    title: `${llcName} — Registered | Agent307`,
+    description: `${llcName} is now a registered Wyoming LLC.`,
     openGraph: {
       title: `${llcName} is now a registered agent.`,
-      description: "The registered agent for AI agents. agentsand.co",
+      description: "Wyoming LLCs for AI Agents. Agent307.",
       images: [{ url: ogUrl, width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
-      site: "@agentsandco",
-      creator: "@agentsandco",
       title: `${llcName} is now a registered agent.`,
-      description: "The registered agent for AI agents. agentsand.co",
+      description: "Wyoming LLCs for AI Agents. Agent307.",
       images: [{ url: ogUrl, width: 1200, height: 630, alt: `${llcName} — registered agent` }],
     },
   };
@@ -62,6 +60,8 @@ export default async function SuccessPage({
   let llcName = "Your Agent LLC";
   let state = "WY";
   let email = "";
+  let product = "";
+  let planId = "";
 
   try {
     const stripe = getStripe();
@@ -69,12 +69,17 @@ export default async function SuccessPage({
     llcName = (session.metadata?.llcName as string) || llcName;
     state = (session.metadata?.state as string) || state;
     email = (session.metadata?.email as string) || (session.customer_email as string) || email;
+    product = (session.metadata?.product as string) || "";
+    planId = (session.metadata?.plan_id as string) || "";
   } catch {
     // If Stripe fails, show page with defaults
   }
 
   const stateName = state === "WY" ? "Wyoming" : "Delaware";
   const agentNumber = await getPositionBySessionId(session_id);
+
+  // Fetch full business plan if this session has one
+  const fullPlan = planId ? await getBusinessPlanById(planId) : null;
 
   return (
     <SuccessClient
@@ -84,6 +89,8 @@ export default async function SuccessPage({
       siteUrl={SITE_URL}
       postPurchaseCopy={COPY.postPurchase}
       agentNumber={agentNumber}
+      product={product}
+      fullPlan={fullPlan}
     />
   );
 }

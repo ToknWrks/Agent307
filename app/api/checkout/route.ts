@@ -5,18 +5,19 @@ import { generateLLCName } from "@/app/lib/llc-names";
 import { getStripe } from "@/app/lib/stripe";
 import { STRIPE_PRICES } from "@/config/stripe";
 
-type ProductType = "reservation" | "formation" | "annual_service";
+type ProductType = "reservation" | "formation" | "annual_service" | "business_plan";
 
 function getPriceId(product: ProductType): string {
   if (product === "formation") return STRIPE_PRICES.wyFormation;
   if (product === "annual_service") return STRIPE_PRICES.annualService;
+  if (product === "business_plan") return STRIPE_PRICES.aiBusinessPlan;
   return STRIPE_PRICES.reservation;
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, state, llcName: rawName, product: rawProduct, ref, request_id } = body;
+    const { email, state, llcName: rawName, product: rawProduct, ref, request_id, plan_id } = body;
 
     if (!email || typeof email !== "string" || !email.includes("@")) {
       return NextResponse.json({ error: "Valid email is required" }, { status: 400 });
@@ -27,6 +28,7 @@ export async function POST(request: NextRequest) {
     const product: ProductType =
       rawProduct === "formation" ? "formation" :
       rawProduct === "annual_service" ? "annual_service" :
+      rawProduct === "business_plan" ? "business_plan" :
       "reservation";
     const priceId = getPriceId(product);
     const isSubscription = product === "annual_service";
@@ -42,12 +44,13 @@ export async function POST(request: NextRequest) {
         product,
         ...(ref && typeof ref === "string" ? { ref } : {}),
         ...(request_id && typeof request_id === "string" ? { request_id } : {}),
+        ...(plan_id && typeof plan_id === "string" ? { plan_id } : {}),
       },
       ...(isSubscription && {
         subscription_data: { metadata: { llcName, state: validState, email } },
       }),
       success_url: `${SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: SITE_URL,
+      cancel_url: `${SITE_URL}/business-plan`,
     });
 
     return NextResponse.json({ url: session.url });

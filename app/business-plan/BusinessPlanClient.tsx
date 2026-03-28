@@ -1,17 +1,13 @@
 "use client";
 
-import { ArrowRight, CheckCircle, Circle, Loader2 } from "lucide-react";
+import { ArrowRight, Lock, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-interface BusinessPlan {
+interface Teaser {
   summary: string;
   problem: string;
   solution: string;
-  market: { size: string; targets: string[] };
-  revenue: { model: string; streams: string[] };
-  risks: string[];
-  steps: { title: string; detail: string; done: boolean }[];
 }
 
 export default function BusinessPlanClient() {
@@ -21,14 +17,17 @@ export default function BusinessPlanClient() {
   const [revenueModel, setRevenueModel] = useState("");
   const [industry, setIndustry] = useState("");
   const [loading, setLoading] = useState(false);
-  const [plan, setPlan] = useState<BusinessPlan | null>(null);
+  const [teaser, setTeaser] = useState<Teaser | null>(null);
+  const [planId, setPlanId] = useState<string>("");
   const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [unlocking, setUnlocking] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-    setPlan(null);
+    setTeaser(null);
 
     try {
       const res = await fetch("/api/business-plan", {
@@ -38,11 +37,39 @@ export default function BusinessPlanClient() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to generate plan");
-      setPlan(data.plan);
+      setTeaser(data.teaser);
+      setPlanId(data.planId);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleUnlock = async (product: "business_plan" | "reservation") => {
+    if (!email || !email.includes("@")) {
+      setError("Enter your email to continue.");
+      return;
+    }
+    setUnlocking(true);
+    setError("");
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          state: "WY",
+          llcName: llcName || undefined,
+          product,
+          plan_id: planId,
+        }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch {
+      setError("Something went wrong. Please try again.");
+      setUnlocking(false);
     }
   };
 
@@ -64,7 +91,7 @@ export default function BusinessPlanClient() {
           </p>
         </div>
 
-        {!plan ? (
+        {!teaser ? (
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
               <label className="text-sm font-medium text-black/70 dark:text-white/70">
@@ -86,7 +113,7 @@ export default function BusinessPlanClient() {
               <textarea
                 required
                 rows={3}
-                placeholder="e.g. My agent monitors competitor pricing, automatically adjusts our Shopify store prices, and generates weekly reports. It has access to our store API and can send emails."
+                placeholder="e.g. My agent monitors competitor pricing, automatically adjusts our Shopify store prices, and generates weekly reports."
                 value={agentPurpose}
                 onChange={(e) => setAgentPurpose(e.target.value)}
                 className="w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-base placeholder:text-neutral-400 focus:border-[#A8F1F7] focus:outline-none focus:ring-1 focus:ring-[#A8F1F7]/50 dark:border-white/10 dark:bg-white/5 dark:placeholder:text-neutral-500"
@@ -100,7 +127,7 @@ export default function BusinessPlanClient() {
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. E-commerce, Healthcare, Finance"
+                  placeholder="e.g. E-commerce, Healthcare"
                   value={industry}
                   onChange={(e) => setIndustry(e.target.value)}
                   className="w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-base placeholder:text-neutral-400 focus:border-[#A8F1F7] focus:outline-none focus:ring-1 focus:ring-[#A8F1F7]/50 dark:border-white/10 dark:bg-white/5 dark:placeholder:text-neutral-500"
@@ -126,16 +153,14 @@ export default function BusinessPlanClient() {
               </label>
               <input
                 type="text"
-                placeholder="e.g. Monthly SaaS subscription, per-transaction fee, consulting"
+                placeholder="e.g. Monthly SaaS subscription, per-transaction fee"
                 value={revenueModel}
                 onChange={(e) => setRevenueModel(e.target.value)}
                 className="w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-base placeholder:text-neutral-400 focus:border-[#A8F1F7] focus:outline-none focus:ring-1 focus:ring-[#A8F1F7]/50 dark:border-white/10 dark:bg-white/5 dark:placeholder:text-neutral-500"
               />
             </div>
 
-            {error && (
-              <p className="text-sm text-red-500">{error}</p>
-            )}
+            {error && <p className="text-sm text-red-500">{error}</p>}
 
             <Button
               type="submit"
@@ -148,119 +173,123 @@ export default function BusinessPlanClient() {
                 </span>
               ) : (
                 <span className="flex items-center justify-center gap-2">
-                  Generate AI Business Plan
+                  Generate Business Plan
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </span>
               )}
             </Button>
           </form>
         ) : (
-          <div className="space-y-8">
-            {/* Summary */}
+          <div className="space-y-6">
+            {/* Teaser — summary visible */}
             <div className="rounded-2xl border border-dashed border-[#A8F1F7]/40 p-2">
-              <div className="rounded-xl border border-[#A8F1F7]/20 bg-[#A8F1F7]/5 p-6 dark:border-[#A8F1F7]/10">
+              <div className="rounded-xl border border-[#A8F1F7]/20 bg-[#A8F1F7]/5 p-6">
                 {llcName && (
                   <p className="mb-2 font-mono text-lg font-semibold text-[#0e7490] dark:text-[#A8F1F7]">{llcName}</p>
                 )}
-                <p className="text-base leading-relaxed text-black/80 dark:text-white/80">{plan.summary}</p>
+                <p className="text-base leading-relaxed text-black/80 dark:text-white/80">{teaser.summary}</p>
               </div>
             </div>
 
-            {/* Problem / Solution */}
+            {/* Problem / Solution visible */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Section title="The Problem">
-                <p className="text-sm leading-relaxed text-black/70 dark:text-white/70">{plan.problem}</p>
+                <p className="text-sm leading-relaxed text-black/70 dark:text-white/70">{teaser.problem}</p>
               </Section>
               <Section title="The Solution">
-                <p className="text-sm leading-relaxed text-black/70 dark:text-white/70">{plan.solution}</p>
+                <p className="text-sm leading-relaxed text-black/70 dark:text-white/70">{teaser.solution}</p>
               </Section>
             </div>
 
-            {/* Market */}
-            <Section title="Market Opportunity">
-              <p className="mb-3 text-sm font-medium text-black/80 dark:text-white/80">{plan.market.size}</p>
-              <ul className="space-y-1.5">
-                {plan.market.targets.map((t) => (
-                  <li key={t} className="flex items-center gap-2 text-sm text-black/60 dark:text-white/60">
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#A8F1F7]" />
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </Section>
-
-            {/* Revenue */}
-            <Section title="Revenue Model">
-              <p className="mb-3 text-sm font-medium text-black/80 dark:text-white/80">{plan.revenue.model}</p>
-              <ul className="space-y-1.5">
-                {plan.revenue.streams.map((s) => (
-                  <li key={s} className="flex items-center gap-2 text-sm text-black/60 dark:text-white/60">
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#A8F1F7]" />
-                    {s}
-                  </li>
-                ))}
-              </ul>
-            </Section>
-
-            {/* Risks */}
-            <Section title="Key Risks">
-              <ul className="space-y-1.5">
-                {plan.risks.map((r) => (
-                  <li key={r} className="flex items-center gap-2 text-sm text-black/60 dark:text-white/60">
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-red-400/60" />
-                    {r}
-                  </li>
-                ))}
-              </ul>
-            </Section>
-
-            {/* Implementation Steps */}
-            <div>
-              <h2 className="mb-4 text-xs font-semibold uppercase tracking-widest text-neutral-500">
-                Implementation Steps
-              </h2>
-              <div className="space-y-3">
-                {plan.steps.map((step, i) => (
-                  <div
-                    key={i}
-                    className={`flex items-start gap-3 rounded-xl border p-4 ${
-                      step.done
-                        ? "border-[#A8F1F7]/20 bg-[#A8F1F7]/5 dark:border-[#A8F1F7]/10"
-                        : "border-black/5 bg-black/2 dark:border-white/10 dark:bg-white/5"
-                    }`}>
-                    {step.done ? (
-                      <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-[#0e7490] dark:text-[#A8F1F7]" />
-                    ) : (
-                      <Circle className="mt-0.5 h-5 w-5 shrink-0 text-neutral-400" />
-                    )}
-                    <div>
-                      <p className={`text-sm font-medium ${step.done ? "text-[#0e7490] dark:text-[#A8F1F7]" : "text-black/80 dark:text-white/80"}`}>
-                        {step.title}
-                      </p>
-                      <p className="mt-0.5 text-sm text-black/50 dark:text-white/50">{step.detail}</p>
-                    </div>
+            {/* Locked sections */}
+            <div className="relative">
+              <div className="pointer-events-none select-none space-y-4 blur-sm">
+                <Section title="Market Opportunity">
+                  <div className="space-y-2">
+                    <div className="h-4 w-3/4 rounded bg-black/10 dark:bg-white/10" />
+                    <div className="h-3 w-1/2 rounded bg-black/10 dark:bg-white/10" />
+                    <div className="h-3 w-2/3 rounded bg-black/10 dark:bg-white/10" />
                   </div>
-                ))}
+                </Section>
+                <Section title="Revenue Model">
+                  <div className="space-y-2">
+                    <div className="h-4 w-2/3 rounded bg-black/10 dark:bg-white/10" />
+                    <div className="h-3 w-1/2 rounded bg-black/10 dark:bg-white/10" />
+                  </div>
+                </Section>
+                <Section title="Key Risks">
+                  <div className="space-y-2">
+                    <div className="h-3 w-3/4 rounded bg-black/10 dark:bg-white/10" />
+                    <div className="h-3 w-1/2 rounded bg-black/10 dark:bg-white/10" />
+                  </div>
+                </Section>
+                <div className="rounded-xl border border-black/5 p-5 dark:border-white/10">
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-500">Implementation Steps</p>
+                  <div className="space-y-3">
+                    {[...Array(7)].map((_, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <div className="h-5 w-5 shrink-0 rounded-full bg-black/10 dark:bg-white/10" />
+                        <div className="h-3 rounded bg-black/10 dark:bg-white/10" style={{ width: `${55 + (i % 3) * 15}%` }} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {/* Lock overlay */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center rounded-xl">
+                <div className="flex flex-col items-center gap-2 rounded-xl border border-black/10 bg-white/90 px-6 py-4 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-black/80">
+                  <Lock className="h-5 w-5 text-[#0e7490] dark:text-[#A8F1F7]" />
+                  <p className="text-sm font-medium text-black/70 dark:text-white/70">
+                    Market analysis, revenue model, risks & 7 implementation steps
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* CTA */}
-            <div className="flex flex-col gap-3 pt-4 sm:flex-row">
-              <Button
-                onClick={() => {
-                  window.dispatchEvent(new CustomEvent("set-product", { detail: { product: "formation", state: "WY" } }));
-                  window.location.href = "/#reserve";
-                }}
-                className="flex-1 rounded-lg bg-[#A8F1F7] font-semibold text-neutral-900 hover:bg-[#A8F1F7]/80 dark:bg-[#A8F1F7] dark:text-neutral-900">
-                Form {llcName || "Your Wyoming LLC"} — $299
-              </Button>
-              <button
-                type="button"
-                onClick={() => { setPlan(null); setError(""); }}
-                className="flex-1 rounded-lg border border-black/10 bg-black/5 px-4 py-2.5 text-sm font-medium text-black/70 hover:bg-black/10 dark:border-white/10 dark:bg-white/5 dark:text-white/70 dark:hover:bg-white/10">
-                Generate another plan
-              </button>
+            {/* Unlock CTA */}
+            <div className="rounded-2xl border border-dashed border-[#A8F1F7]/40 p-5 space-y-4">
+              <p className="text-sm font-medium text-center text-black/70 dark:text-white/70">
+                Unlock your full plan
+              </p>
+
+              <input
+                type="email"
+                required
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-base placeholder:text-neutral-400 focus:border-[#A8F1F7] focus:outline-none focus:ring-1 focus:ring-[#A8F1F7]/50 dark:border-white/10 dark:bg-white/5 dark:placeholder:text-neutral-500"
+              />
+
+              {error && <p className="text-sm text-red-500">{error}</p>}
+
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Button
+                  type="button"
+                  disabled={unlocking}
+                  onClick={() => handleUnlock("business_plan")}
+                  className="flex-1 rounded-lg bg-[#A8F1F7] font-semibold text-neutral-900 hover:bg-[#A8F1F7]/80 dark:bg-[#A8F1F7] dark:text-neutral-900">
+                  {unlocking ? <Loader2 className="h-4 w-4 animate-spin" /> : "Get full plan — $19"}
+                </Button>
+                <Button
+                  type="button"
+                  disabled={unlocking}
+                  onClick={() => handleUnlock("reservation")}
+                  className="flex-1 rounded-lg border border-[#A8F1F7]/40 bg-transparent font-semibold text-[#0e7490] hover:bg-[#A8F1F7]/10 dark:text-[#A8F1F7] dark:hover:bg-[#A8F1F7]/10">
+                  {unlocking ? <Loader2 className="h-4 w-4 animate-spin" /> : "Unlock with Wyoming LLC — $99+"}
+                </Button>
+              </div>
+              <p className="text-center text-xs text-neutral-400">
+                Full plan included with any LLC reservation or formation.
+              </p>
             </div>
+
+            <button
+              type="button"
+              onClick={() => { setTeaser(null); setError(""); setPlanId(""); }}
+              className="w-full text-sm text-neutral-500 underline underline-offset-2 hover:text-neutral-300">
+              Generate a different plan
+            </button>
           </div>
         )}
       </div>

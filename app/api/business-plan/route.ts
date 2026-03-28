@@ -64,10 +64,18 @@ The steps array must have exactly 7 items. The first item is always Wyoming LLC 
     const raw = content.text.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "").trim();
     const plan = JSON.parse(raw);
 
-    // Save submission in background — don't block the response
-    saveBusinessPlanSubmission({ llcName, agentPurpose, industry, targetCustomers, revenueModel, plan }).catch(() => {});
+    // Save to DB and get planId — needed for gated unlock after payment
+    const planId = await saveBusinessPlanSubmission({ llcName, agentPurpose, industry, targetCustomers, revenueModel, plan });
 
-    return NextResponse.json({ plan });
+    // Return teaser only — full plan is gated behind payment
+    return NextResponse.json({
+      planId,
+      teaser: {
+        summary: plan.summary,
+        problem: plan.problem,
+        solution: plan.solution,
+      },
+    });
   } catch (error) {
     console.error("Business plan generation error:", error);
     if (error instanceof SyntaxError) {
