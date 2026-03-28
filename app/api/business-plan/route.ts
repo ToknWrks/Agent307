@@ -52,7 +52,7 @@ The steps array must have exactly 7 items. The first item is always Wyoming LLC 
 
     const message = await client.messages.create({
       model: "claude-sonnet-4-6",
-      max_tokens: 1024,
+      max_tokens: 2048,
       messages: [{ role: "user", content: prompt }],
     });
 
