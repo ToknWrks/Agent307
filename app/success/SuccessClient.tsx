@@ -6,7 +6,6 @@ import {
   ChevronDown,
   Copy,
   ExternalLink,
-  Phone,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SHARE_TEMPLATES } from "@/app/lib/constants";
@@ -251,19 +250,16 @@ export default function SuccessClient({
             </div>
           )}
 
-          {/* CallDesk cross-sell */}
+          {/* Business plan cross-sell */}
           <div className="flex w-full max-w-md items-center justify-between rounded-xl border border-[#A8F1F7]/20 bg-[#A8F1F7]/5 px-5 py-4">
             <p className="text-sm text-neutral-600 dark:text-neutral-300">
-              Your agent has an LLC. Now give it a phone number.
+              Your agent has an LLC. Now give it a business plan.
             </p>
             <a
-              href="https://247calldesk.com"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/business-plan"
               className="ml-4 flex shrink-0 items-center gap-1.5 rounded-lg bg-[#A8F1F7] px-3 py-2 text-xs font-medium text-neutral-900 transition-all hover:bg-[#A8F1F7]/80"
             >
-              <Phone className="h-3.5 w-3.5" />
-              Get 24/7 CallDesk
+              Generate Plan
               <ExternalLink className="h-3 w-3" />
             </a>
           </div>
