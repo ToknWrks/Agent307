@@ -1,5 +1,5 @@
-import { SITE_URL } from "@/app/lib/constants";
 import type { Metadata } from "next";
+import { SITE_URL } from "@/app/lib/constants";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 

@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
+import { saveBusinessPlanSubmission } from "@/app/lib/db";
 
 const client = new Anthropic();
 
@@ -61,6 +62,10 @@ The steps array must have exactly 7 items. The first item is always Wyoming LLC 
     }
 
     const plan = JSON.parse(content.text);
+
+    // Save submission in background — don't block the response
+    saveBusinessPlanSubmission({ llcName, agentPurpose, industry, targetCustomers, revenueModel, plan }).catch(() => {});
+
     return NextResponse.json({ plan });
   } catch (error) {
     console.error("Business plan generation error:", error);

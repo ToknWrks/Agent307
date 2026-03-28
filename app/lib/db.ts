@@ -157,6 +157,40 @@ export async function updateFormationDate(stripeSubscriptionId: string, formatio
   `;
 }
 
+// CREATE TABLE business_plan_submissions (
+//   id SERIAL PRIMARY KEY,
+//   llc_name TEXT,
+//   agent_purpose TEXT NOT NULL,
+//   industry TEXT,
+//   target_customers TEXT,
+//   revenue_model TEXT,
+//   plan_json JSONB,
+//   created_at TIMESTAMPTZ DEFAULT NOW()
+// );
+
+export async function saveBusinessPlanSubmission(data: {
+  llcName?: string;
+  agentPurpose: string;
+  industry?: string;
+  targetCustomers?: string;
+  revenueModel?: string;
+  plan: object;
+}): Promise<void> {
+  const client = getSql();
+  if (!client) return;
+  await client`
+    INSERT INTO business_plan_submissions (llc_name, agent_purpose, industry, target_customers, revenue_model, plan_json)
+    VALUES (
+      ${data.llcName || null},
+      ${data.agentPurpose},
+      ${data.industry || null},
+      ${data.targetCustomers || null},
+      ${data.revenueModel || null},
+      ${JSON.stringify(data.plan)}
+    )
+  `;
+}
+
 /** Seed offset so counters are nonzero at launch. Set to 0 once real traffic exceeds it. */
 export const SEED_COUNT = 147;
 
