@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check, ExternalLink } from "lucide-react";
-import { EVIDENCE } from "@/app/lib/constants";
+import { EVIDENCE, SITE_URL } from "@/app/lib/constants";
 
 export const metadata: Metadata = {
   title: "Form a Wyoming LLC Online | Agent307 — Filed in 48 Hours",
